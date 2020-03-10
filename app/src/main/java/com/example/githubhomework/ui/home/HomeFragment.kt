@@ -28,7 +28,7 @@ class HomeFragment : Fragment() {
     ): View? {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
-        binding = DataBindingUtil.inflate<FragmentHomeBinding>(inflater, R.layout.fragment_home, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         binding.viewModel = homeViewModel
 

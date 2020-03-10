@@ -9,7 +9,7 @@ import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeListBinding
 import com.example.githubhomework.entities.GitHubUser
 
-class UserAdapter(private val users: Array<GitHubUser>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserAdapter(private val users: List<GitHubUser>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
