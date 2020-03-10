@@ -1,5 +1,6 @@
 package com.example.githubhomework.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.githubhomework.GitHubUserActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -40,8 +42,15 @@ class HomeFragment : Fragment() {
 
         homeViewModel.searchResult.observe(this, Observer {
             binding.homeRecycleView.apply {
+                val userAdapter = UserAdapter(it)
+                userAdapter.onShowUser = {
+                    val intent = Intent(context, GitHubUserActivity::class.java)
+
+                    startActivity(intent)
+                }
+
                 layoutManager = LinearLayoutManager(activity)
-                adapter = UserAdapter(it)
+                adapter = userAdapter
             }
         })
     }

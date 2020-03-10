@@ -2,7 +2,6 @@ package com.example.githubhomework.repositories
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.example.githubhomework.entities.GitHubUser
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
@@ -14,7 +13,7 @@ import java.net.URL
 import java.net.URLEncoder
 
 class GitHubUserRepository {
-    private val baseUserUrl = "https://api.github.com/search/users?q="
+    private val baseUserApiUrl = "https://api.github.com/search/users?q="
 
     private val httpClient = OkHttpClient()
 
@@ -23,7 +22,7 @@ class GitHubUserRepository {
     }
 
     fun findAllByName(name: String, completionHandler: (List<GitHubUser>?) -> Unit) {
-        val s = baseUserUrl + URLEncoder.encode( name, "UTF-8")
+        val s = baseUserApiUrl + URLEncoder.encode( name, "UTF-8")
 
         val url = URL(s)
 
@@ -46,8 +45,6 @@ class GitHubUserRepository {
                     completeWithNullResult()
                     return
                 }
-
-                Log.i("INFO", body)
 
                 try {
                     val list = parseJsonResult(body!!)

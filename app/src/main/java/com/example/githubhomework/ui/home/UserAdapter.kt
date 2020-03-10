@@ -1,5 +1,6 @@
 package com.example.githubhomework.ui.home
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,10 @@ import com.example.githubhomework.entities.GitHubUser
 
 class UserAdapter(private val users: List<GitHubUser>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
+
+    var onShowUser: ((HomeListViewModel) -> Unit)? = null
+
+    class UserViewHolder(itemView: View, val binding: FragmentHomeListBinding) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (::layoutInflater.isInitialized == false) {
@@ -29,11 +34,12 @@ class UserAdapter(private val users: List<GitHubUser>) : RecyclerView.Adapter<Re
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val holder = holder as UserViewHolder
 
-        holder.binding.entity = users[position]
-    }
+        val viewModel = HomeListViewModel(users[position])
 
+        viewModel.onShowUser = {
+            onShowUser?.let { it(viewModel) }
+        }
 
-    class UserViewHolder(itemView: View, val binding: FragmentHomeListBinding) : RecyclerView.ViewHolder(itemView) {
-
+        holder.binding.viewModel = viewModel
     }
 }
