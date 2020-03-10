@@ -7,16 +7,21 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_git_hub_user.*
 
 class GitHubUserActivity : AppCompatActivity() {
+    companion object {
+        val EXTRA_GITHUB_REPOSITORY_URL = "EXTRA_GITHUB_REPOSITORY_URL"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_git_hub_user)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        if (savedInstanceState == null) {
+            return
         }
-    }
 
+        val reposUrl = savedInstanceState!!.getString(EXTRA_GITHUB_REPOSITORY_URL)
+
+        
+    }
 }

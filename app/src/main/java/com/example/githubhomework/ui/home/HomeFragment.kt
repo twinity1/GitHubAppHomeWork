@@ -46,6 +46,8 @@ class HomeFragment : Fragment() {
                 userAdapter.onShowUser = {
                     val intent = Intent(context, GitHubUserActivity::class.java)
 
+                    intent.putExtra(GitHubUserActivity.EXTRA_GITHUB_REPOSITORY_URL, it.gitHubUser.reposUrl)
+
                     startActivity(intent)
                 }
 
