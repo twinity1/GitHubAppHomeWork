@@ -2,11 +2,9 @@ package com.example.githubhomework.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.GitHubUserActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeBinding
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
@@ -42,9 +39,9 @@ class HomeFragment : Fragment() {
 
         homeViewModel.searchResult.observe(this, Observer {
             binding.homeRecycleView.apply {
-                val userAdapter = UserAdapter(it)
+                val userAdapter = GitHubUserListAdapter(it)
                 userAdapter.onShowUser = {
-                    val intent = Intent(context, GitHubUserActivity::class.java)
+                    val intent = Intent(activity, GitHubUserActivity::class.java)
 
                     intent.putExtra(GitHubUserActivity.EXTRA_GITHUB_REPOSITORY_URL, it.gitHubUser.reposUrl)
 

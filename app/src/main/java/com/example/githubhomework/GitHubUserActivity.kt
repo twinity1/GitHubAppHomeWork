@@ -3,6 +3,7 @@ package com.example.githubhomework
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import com.example.githubhomework.ui.githubuser.GitHubUserFragment
 
 import kotlinx.android.synthetic.main.activity_git_hub_user.*
 
@@ -16,15 +17,10 @@ class GitHubUserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_git_hub_user)
         setSupportActionBar(toolbar)
 
-        if (savedInstanceState == null) {
-            return
-        }
+        val reposUrl = intent!!.getStringExtra(EXTRA_GITHUB_REPOSITORY_URL)!!
 
-        val reposUrl = savedInstanceState!!.getString(EXTRA_GITHUB_REPOSITORY_URL)
+        val fragment = fragmentGitHubUser as GitHubUserFragment
 
-
-//        nav:h
-
-
+        fragment.reposUrl = reposUrl
     }
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.example.githubhomework.GitHubUserActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentGitHubUserBinding
 import com.example.githubhomework.databinding.FragmentHomeBinding
@@ -18,6 +19,7 @@ class GitHubUserFragment : Fragment() {
 
     private lateinit var binding: FragmentGitHubUserBinding
 
+    lateinit var reposUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,5 +36,9 @@ class GitHubUserFragment : Fragment() {
         binding.viewModel = viewModel
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 }

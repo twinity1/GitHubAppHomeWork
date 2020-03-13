@@ -10,7 +10,7 @@ import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeListBinding
 import com.example.githubhomework.entities.GitHubUser
 
-class UserAdapter(private val users: List<GitHubUser>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class GitHubUserListAdapter(private val users: List<GitHubUser>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
 
     var onShowUser: ((HomeListViewModel) -> Unit)? = null
