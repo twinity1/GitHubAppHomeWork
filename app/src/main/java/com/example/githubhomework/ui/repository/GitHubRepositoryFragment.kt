@@ -8,18 +8,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.githubhomework.R
+import com.example.githubhomework.components.lists.issues.RepositoryIssuesListAdapter
 import com.example.githubhomework.databinding.FragmentRepositoryBinding
 import com.example.githubhomework.repositories.GitHubRepositoryIssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
+import kotlinx.android.synthetic.main.fragment_repository.*
 
 class GitHubRepositoryFragment : Fragment() {
     private lateinit var viewModel: GitHubRepositoryViewModel
 
     private lateinit var binding: FragmentRepositoryBinding
 
-    lateinit var issuesUrl: String
+    lateinit var repositoryFullName: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +39,11 @@ class GitHubRepositoryFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-       GitHubRepositoryIssueRepository.shared.findAll(issuesUrl) {
+       GitHubRepositoryIssueRepository.shared.findAll(repositoryFullName) {
            it.fold(
                onSuccess = {
+                   repositoryIssueList.layoutManager = LinearLayoutManager(activity)
+                   repositoryIssueList.adapter = RepositoryIssuesListAdapter(it)
 
                },
                onFailure = {

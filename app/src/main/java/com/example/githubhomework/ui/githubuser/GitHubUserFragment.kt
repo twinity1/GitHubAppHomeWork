@@ -49,7 +49,7 @@ class GitHubUserFragment : Fragment() {
             repositoryListAdapter.onShowRepository = {
                 val intent = Intent(activity, GitHubRepositoryActivity::class.java)
 
-                intent.putExtra(GitHubRepositoryActivity.ISSUES_URL, it.entity.issuesUrl)
+                intent.putExtra(GitHubRepositoryActivity.REPOSITORY_FULLNAME_URL, it.entity.fullName)
 
                 startActivity(intent)
             }

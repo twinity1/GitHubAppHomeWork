@@ -36,13 +36,11 @@ class RepositoryListAdapter(private val repositories: List<GitHubRepository>) : 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val holder = holder as RepositoryViewHolder
 
-        val viewModel =
-            RepositoryListViewModel(
-                repositories[position]
-            )
+        val viewModel = RepositoryListViewModel(repositories[position])
+
         holder.binding.viewModel = viewModel
 
-        holder.binding.viewModel.onRepositoryShow = {
+        viewModel.onRepositoryShow = {
             onShowRepository?.invoke(viewModel)
         }
     }

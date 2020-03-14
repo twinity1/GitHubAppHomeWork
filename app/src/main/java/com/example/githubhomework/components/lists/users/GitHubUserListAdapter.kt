@@ -12,7 +12,7 @@ import com.example.githubhomework.entities.GitHubUser
 class GitHubUserListAdapter(private val users: List<GitHubUser>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
 
-    var onShowUser: ((HomeListViewModel) -> Unit)? = null
+    var onShowUser: ((GitHubUserListViewModel) -> Unit)? = null
 
     class UserViewHolder(itemView: View, val binding: FragmentHomeListBinding) : RecyclerView.ViewHolder(itemView)
 
@@ -37,7 +37,7 @@ class GitHubUserListAdapter(private val users: List<GitHubUser>) : RecyclerView.
         val holder = holder as UserViewHolder
 
         val viewModel =
-            HomeListViewModel(
+            GitHubUserListViewModel(
                 users[position]
             )
 

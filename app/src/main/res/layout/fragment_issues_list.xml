@@ -6,16 +6,16 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.githubhomework.components.lists.users.GitHubUserListViewModel" />
+            type="com.example.githubhomework.components.lists.issues.RepositoryIssueListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_height="60dp" android:layout_width="match_parent">
         <androidx.cardview.widget.CardView
-            android:onClick="@{() -> viewModel.onCardClick()}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
-            <TextView android:layout_width="match_parent"  android:layout_height="match_parent" android:text="@{viewModel.gitHubUser.login}"/>
+            <TextView android:layout_width="match_parent"  android:layout_height="match_parent" android:text="@{viewModel.entity.title}"/>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

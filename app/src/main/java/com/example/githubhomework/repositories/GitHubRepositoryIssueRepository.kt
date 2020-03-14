@@ -5,16 +5,17 @@ import com.example.githubhomework.tools.ApiGetRequest
 import okhttp3.*
 
 class GitHubRepositoryIssueRepository {
-    private val httpClient = OkHttpClient()
-
     companion object {
         val shared = GitHubRepositoryIssueRepository()
     }
 
-    fun findAll(issuesUrl: String, completionHandler: (Result<List<GitHubRepositoryIssue>>) -> Unit) {
+
+    private val baseApiUrl = "https://api.github.com/repos/"
+
+    fun findAll(repositoryFullName: String, completionHandler: (Result<List<GitHubRepositoryIssue>>) -> Unit) {
         val request = ApiGetRequest()
 
-        request.send<List<GitHubRepositoryIssue>>(issuesUrl) {
+        request.send<List<GitHubRepositoryIssue>>(baseApiUrl + repositoryFullName + "/issues") {
             completionHandler(it)
         }
     }
