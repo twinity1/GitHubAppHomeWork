@@ -22,7 +22,7 @@ class GitHubUserListAdapter(private val users: List<GitHubUser>) : RecyclerView.
             layoutInflater = LayoutInflater.from(parent.context)
         }
 
-        val binding = DataBindingUtil.inflate<FragmentHomeListBinding>(layoutInflater, R.layout.fragment_home_list, parent, false);
+        val binding = DataBindingUtil.inflate<FragmentHomeListBinding>(layoutInflater, R.layout.fragment_home_list, parent, false)
 
         return UserViewHolder(binding.root, binding)
     }

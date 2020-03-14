@@ -2,9 +2,12 @@ package com.example.githubhomework.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,12 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.GitHubUserActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeBinding
+import com.example.githubhomework.repositories.GitHubUserRepository
+import com.example.githubhomework.tools.ErrorMessageHandler
+import java.net.UnknownHostException
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
 
     private lateinit var binding: FragmentHomeBinding
+
+    private val handler = Handler(Looper.getMainLooper())
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +45,24 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        homeViewModel.searchText.observe(this, Observer {
+            handler.removeCallbacksAndMessages(null)
+
+            handler.postDelayed({
+                GitHubUserRepository.shared.findByName(it) {
+                    it.fold(
+                    onSuccess = {
+                        homeViewModel.searchResult.value = it
+                    },
+
+                    onFailure = {
+                        Toast.makeText(activity, activity!!.getString(ErrorMessageHandler().getStringIdByException(it)), Toast.LENGTH_LONG).show()
+                    }
+                    )
+                }
+            }, 300)
+        })
 
         homeViewModel.searchResult.observe(this, Observer {
             binding.homeRecycleView.apply {

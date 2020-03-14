@@ -1,17 +1,21 @@
 package com.example.githubhomework.ui.githubuser
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.githubhomework.GitHubUserActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentGitHubUserBinding
-import com.example.githubhomework.databinding.FragmentHomeBinding
-import com.example.githubhomework.ui.home.HomeViewModel
+import com.example.githubhomework.repositories.GitHubRepositoryRepository
+import com.example.githubhomework.repositories.GitHubUserRepository
+import kotlinx.android.synthetic.main.fragment_git_hub_user.*
 
 class GitHubUserFragment : Fragment() {
 
@@ -20,10 +24,6 @@ class GitHubUserFragment : Fragment() {
     private lateinit var binding: FragmentGitHubUserBinding
 
     lateinit var reposUrl: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,10 +35,22 @@ class GitHubUserFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        viewModel.repositoryList.observe(this, Observer {
+            gitHubUserList.layoutManager = LinearLayoutManager(activity)
+            gitHubUserList.adapter = RepositoryListAdapter(it)
+        })
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
+
+        GitHubRepositoryRepository.shared.findAllByReposUrl(reposUrl) {
+            if (it != null) {
+                viewModel.repositoryList.value = it
+            }
+        }
+
     }
 }

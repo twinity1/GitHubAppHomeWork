@@ -21,44 +21,39 @@ class GitHubUserRepository {
         val shared = GitHubUserRepository()
     }
 
-    fun findAllByName(name: String, completionHandler: (List<GitHubUser>?) -> Unit) {
-        val s = baseUserApiUrl + URLEncoder.encode( name, "UTF-8")
+    fun findByName(name: String, completionHandler: (Result<List<GitHubUser>>) -> Unit) {
+        val userFindUrl = baseUserApiUrl + URLEncoder.encode( name, "UTF-8")
 
-        val url = URL(s)
+        val url = URL(userFindUrl)
 
         val request = Request.Builder().url(url).build()
 
         val uiHandler = Handler(Looper.getMainLooper())
-        val completeWithNullResult = {uiHandler.post { completionHandler(null) }}
 
         httpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 uiHandler.post {
-                    completionHandler(null)
+                    completionHandler(Result.failure(e))
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val body = response.body()?.string()
-
-                if (body == null) {
-                    completeWithNullResult()
-                    return
-                }
+                val body = response.body()!!.string()
 
                 try {
                     val list = parseJsonResult(body!!)
 
                     uiHandler.post {
-                        completionHandler(list)
+                        completionHandler(Result.success(list))
                     }
 
                 } catch (e: IllegalStateException) {
-                    completeWithNullResult()
+                    uiHandler.post {
+                        completionHandler(Result.failure(e))
+                    }
                 } catch (e: JsonSyntaxException) {
-                    completeWithNullResult()
+                    completionHandler(Result.failure(e))
                 }
-
             }
         })
     }
