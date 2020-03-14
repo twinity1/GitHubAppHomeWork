@@ -49,19 +49,23 @@ class HomeFragment : Fragment() {
         homeViewModel.searchText.observe(this, Observer {
             handler.removeCallbacksAndMessages(null)
 
-            handler.postDelayed({
-                GitHubUserRepository.shared.findByName(it) {
-                    it.fold(
-                    onSuccess = {
-                        homeViewModel.searchResult.value = it
-                    },
+            if (it.trim() != "") {
+                handler.postDelayed({
+                    GitHubUserRepository.shared.findByName(it) {
+                        it.fold(
+                            onSuccess = {
+                                homeViewModel.searchResult.value = it
+                            },
 
-                    onFailure = {
-                        Toast.makeText(activity, activity!!.getString(ErrorMessageHandler().getStringIdByException(it)), Toast.LENGTH_LONG).show()
+                            onFailure = {
+                                Toast.makeText(activity, activity!!.getString(ErrorMessageHandler().getStringIdByException(it)), Toast.LENGTH_LONG).show()
+                            }
+                        )
                     }
-                    )
-                }
-            }, 300)
+                }, 300)
+            } else {
+                homeViewModel.searchResult.value = listOf()
+            }
         })
 
         homeViewModel.searchResult.observe(this, Observer {

@@ -2,9 +2,7 @@ package com.example.githubhomework.tools
 
 import android.os.Handler
 import android.os.Looper
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
+import com.google.gson.*
 import okhttp3.*
 import java.io.IOException
 import java.lang.IllegalStateException
@@ -13,9 +11,12 @@ import java.net.URL
 class ApiGetRequest {
     var gson = Gson()
 
+    var onJsonParsing: ((JsonElement) -> JsonArray)? = null
+
     private var httpClient = OkHttpClient()
 
-    fun <T> send(url: String, completionHandler: (Result<T>) -> Unit) {
+
+    fun <T> getAsList(url: String, classType: Class<T>, completionHandler: (Result<List<T>>) -> Unit) {
         val url = URL(url)
 
         val request = Request.Builder().url(url).build()
@@ -33,7 +34,7 @@ class ApiGetRequest {
                 val body = response.body()!!.string()
 
                 try {
-                    val parseResult = parseJsonResult<T>(body!!)
+                    val parseResult = parseJsonResult(body!!, classType)
 
                     uiHandler.post {
                         completionHandler(Result.success(parseResult))
@@ -53,11 +54,21 @@ class ApiGetRequest {
     }
 
 
-    private fun <T> parseJsonResult(content: String): T {
-        val value = object : TypeToken<T>() {}
+    private fun <T> parseJsonResult(content: String, classType: Class<T>): List<T> {
+        val list = ArrayList<T>()
 
-        val result = gson.fromJson<T>(content, value.type)
+        var jsonElement = JsonParser().parse(content)
 
-        return result
+        var jsonArray = jsonElement.asJsonArray
+
+        if (onJsonParsing != null) {
+            jsonArray = onJsonParsing!!(jsonElement)
+        }
+
+        for (el in jsonArray) {
+            list.add(gson.fromJson(el, classType))
+        }
+
+        return list
     }
 }

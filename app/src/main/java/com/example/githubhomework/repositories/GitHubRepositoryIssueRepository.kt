@@ -2,7 +2,6 @@ package com.example.githubhomework.repositories
 
 import com.example.githubhomework.entities.GitHubRepositoryIssue
 import com.example.githubhomework.tools.ApiGetRequest
-import okhttp3.*
 
 class GitHubRepositoryIssueRepository {
     companion object {
@@ -15,7 +14,7 @@ class GitHubRepositoryIssueRepository {
     fun findAll(repositoryFullName: String, completionHandler: (Result<List<GitHubRepositoryIssue>>) -> Unit) {
         val request = ApiGetRequest()
 
-        request.send<List<GitHubRepositoryIssue>>(baseApiUrl + repositoryFullName + "/issues") {
+        request.getAsList(baseApiUrl + repositoryFullName + "/issues", GitHubRepositoryIssue::class.java) {
             completionHandler(it)
         }
     }

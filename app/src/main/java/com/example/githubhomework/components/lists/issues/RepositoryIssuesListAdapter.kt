@@ -12,8 +12,6 @@ import com.example.githubhomework.entities.GitHubRepositoryIssue
 class RepositoryIssuesListAdapter(private val issues: List<GitHubRepositoryIssue>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
 
-    var onShowRepository: ((RepositoryIssueListViewModel) -> Unit)? = null
-
     private class ViewHolder(itemView: View, var binding: FragmentIssuesListBinding) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
