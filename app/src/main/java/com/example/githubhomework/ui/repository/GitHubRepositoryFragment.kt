@@ -1,5 +1,6 @@
 package com.example.githubhomework.ui.repository
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.githubhomework.GitHubIssueActivity
+import com.example.githubhomework.GitHubUserActivity
 
 import com.example.githubhomework.R
 import com.example.githubhomework.components.lists.issues.RepositoryIssuesListAdapter
@@ -42,9 +45,18 @@ class GitHubRepositoryFragment : Fragment() {
        GitHubRepositoryIssueRepository.shared.findAll(repositoryFullName) {
            it.fold(
                onSuccess = {
-                   repositoryIssueList.layoutManager = LinearLayoutManager(activity)
-                   repositoryIssueList.adapter = RepositoryIssuesListAdapter(it)
+                   val adapter = RepositoryIssuesListAdapter(it)
 
+                   adapter.onIssueShow = {
+                       val intent = Intent(activity, GitHubIssueActivity::class.java)
+
+                       intent.putExtra(GitHubIssueActivity.ISSUE_URL, it.entity.url)
+
+                       startActivity(intent)
+                   }
+
+                   repositoryIssueList.layoutManager = LinearLayoutManager(activity)
+                   repositoryIssueList.adapter = adapter
                },
                onFailure = {
                     Toast.makeText(activity!!, activity!!.getString(ErrorMessageHandler().getStringIdByException(it)), Toast.LENGTH_LONG).show()

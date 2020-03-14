@@ -8,13 +8,12 @@ import java.io.IOException
 import java.lang.IllegalStateException
 import java.net.URL
 
-class ApiGetRequest {
+class ApiGetMultipleRequest {
     var gson = Gson()
 
-    var onJsonParsing: ((JsonElement) -> JsonArray)? = null
+    var onJsonParse: ((JsonElement) -> JsonArray)? = null
 
     private var httpClient = OkHttpClient()
-
 
     fun <T> getAsList(url: String, classType: Class<T>, completionHandler: (Result<List<T>>) -> Unit) {
         val url = URL(url)
@@ -61,8 +60,8 @@ class ApiGetRequest {
 
         var jsonArray: JsonArray? = null
 
-        if (onJsonParsing != null) {
-            jsonArray = onJsonParsing!!(jsonElement)
+        if (onJsonParse != null) {
+            jsonArray = onJsonParse!!(jsonElement)
         } else {
             jsonArray = jsonElement.asJsonArray
         }

@@ -8,4 +8,10 @@ class RepositoryIssueListViewModel(val entity: GitHubRepositoryIssue) : ViewMode
     var number: String = ""
         get() = "#" + entity.number.toString()
 
+
+    var onIssueShow = {}
+
+    fun onCardSelect() {
+        onIssueShow()
+    }
 }

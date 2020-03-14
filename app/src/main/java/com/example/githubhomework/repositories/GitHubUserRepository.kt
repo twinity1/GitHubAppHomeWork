@@ -1,7 +1,7 @@
 package com.example.githubhomework.repositories
 
 import com.example.githubhomework.entities.GitHubUser
-import com.example.githubhomework.tools.ApiGetRequest
+import com.example.githubhomework.tools.ApiGetMultipleRequest
 import okhttp3.*
 import java.net.URLEncoder
 
@@ -17,9 +17,9 @@ class GitHubUserRepository {
     fun findByName(name: String, completionHandler: (Result<List<GitHubUser>>) -> Unit) {
         val userFindUrl = baseUserApiUrl + URLEncoder.encode( name, "UTF-8")
 
-        val apiRequest = ApiGetRequest()
+        val apiRequest = ApiGetMultipleRequest()
 
-        apiRequest.onJsonParsing = { it.asJsonObject["items"].asJsonArray }
+        apiRequest.onJsonParse = { it.asJsonObject["items"].asJsonArray }
 
         apiRequest.getAsList(userFindUrl, GitHubUser::class.java) {
             completionHandler(it)

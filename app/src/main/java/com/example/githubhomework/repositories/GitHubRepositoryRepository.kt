@@ -1,7 +1,7 @@
 package com.example.githubhomework.repositories
 
 import com.example.githubhomework.entities.GitHubRepository
-import com.example.githubhomework.tools.ApiGetRequest
+import com.example.githubhomework.tools.ApiGetMultipleRequest
 
 class GitHubRepositoryRepository {
     companion object {
@@ -9,7 +9,7 @@ class GitHubRepositoryRepository {
     }
 
     fun findAllByReposUrl(reposUrl: String, completionHandler: (Result<List<GitHubRepository>>) -> Unit) {
-        ApiGetRequest().getAsList(reposUrl, GitHubRepository::class.java) {
+        ApiGetMultipleRequest().getAsList(reposUrl, GitHubRepository::class.java) {
             completionHandler(it)
         }
     }

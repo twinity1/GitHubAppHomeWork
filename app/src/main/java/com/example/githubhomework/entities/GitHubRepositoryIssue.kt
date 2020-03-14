@@ -8,5 +8,7 @@ data class GitHubRepositoryIssue(
     @SerializedName("labels_url")
     val labelsUrl: String,
 
-    val number: Int
+    val number: Int,
+
+    val url: String
 )
