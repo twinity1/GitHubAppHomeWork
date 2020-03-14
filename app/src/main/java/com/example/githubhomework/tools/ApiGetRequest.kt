@@ -59,13 +59,15 @@ class ApiGetRequest {
 
         var jsonElement = JsonParser().parse(content)
 
-        var jsonArray = jsonElement.asJsonArray
+        var jsonArray: JsonArray? = null
 
         if (onJsonParsing != null) {
             jsonArray = onJsonParsing!!(jsonElement)
+        } else {
+            jsonArray = jsonElement.asJsonArray
         }
 
-        for (el in jsonArray) {
+        for (el in jsonArray!!) {
             list.add(gson.fromJson(el, classType))
         }
 
