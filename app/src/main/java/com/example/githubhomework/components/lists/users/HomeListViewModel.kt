@@ -1,4 +1,4 @@
-package com.example.githubhomework.ui.home
+package com.example.githubhomework.components.lists.users
 
 import com.example.githubhomework.entities.GitHubUser
 

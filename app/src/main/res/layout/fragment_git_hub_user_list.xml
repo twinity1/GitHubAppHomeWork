@@ -6,13 +6,15 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.githubhomework.ui.githubuser.RepositoryListViewModel" />
+            type="com.example.githubhomework.components.lists.repositories.RepositoryListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_height="60dp" android:layout_width="match_parent">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:onClick="@{() -> viewModel.onCardSelected()}"
+            >
 
             <TextView android:layout_width="match_parent"  android:layout_height="match_parent" android:text="@{viewModel.entity.fullName}"/>
         </androidx.cardview.widget.CardView>

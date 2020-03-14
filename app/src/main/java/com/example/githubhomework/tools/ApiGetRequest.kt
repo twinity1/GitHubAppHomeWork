@@ -1,9 +1,8 @@
-package com.example.githubhomework.repositories
+package com.example.githubhomework.tools
 
 import android.os.Handler
 import android.os.Looper
-import com.example.githubhomework.entities.GitHubRepository
-import com.google.gson.GsonBuilder
+import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import okhttp3.*
@@ -11,15 +10,13 @@ import java.io.IOException
 import java.lang.IllegalStateException
 import java.net.URL
 
-class GitHubRepositoryRepository {
-    private val httpClient = OkHttpClient()
+class ApiGetRequest {
+    var gson = Gson()
 
-    companion object {
-        val shared = GitHubRepositoryRepository()
-    }
+    private var httpClient = OkHttpClient()
 
-    fun findAllByReposUrl(reposUrl: String, completionHandler: (Result<List<GitHubRepository>>) -> Unit) {
-        val url = URL(reposUrl)
+    fun <T> send(url: String, completionHandler: (Result<T>) -> Unit) {
+        val url = URL(url)
 
         val request = Request.Builder().url(url).build()
 
@@ -36,30 +33,31 @@ class GitHubRepositoryRepository {
                 val body = response.body()!!.string()
 
                 try {
-                    val list = parseJsonResult(body!!)
+                    val parseResult = parseJsonResult<T>(body!!)
 
                     uiHandler.post {
-                        completionHandler(Result.success(list))
+                        completionHandler(Result.success(parseResult))
                     }
 
                 } catch (e: IllegalStateException) {
-                    completionHandler(Result.failure(e))
+                    uiHandler.post {
+                        completionHandler(Result.failure(e))
+                    }
                 } catch (e: JsonSyntaxException) {
-                    completionHandler(Result.failure(e))
+                    uiHandler.post {
+                        completionHandler(Result.failure(e))
+                    }
                 }
-
             }
         })
     }
 
-    private fun parseJsonResult(content: String): List<GitHubRepository> {
-        val value = object : TypeToken<List<GitHubRepository>>() {}
 
-        val gson = GsonBuilder().create()
+    private fun <T> parseJsonResult(content: String): T {
+        val value = object : TypeToken<T>() {}
 
-        val result = gson.fromJson<List<GitHubRepository>>(content, value.type)
+        val result = gson.fromJson<T>(content, value.type)
 
         return result
     }
-
 }

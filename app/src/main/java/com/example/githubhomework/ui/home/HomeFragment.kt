@@ -15,10 +15,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.GitHubUserActivity
 import com.example.githubhomework.R
+import com.example.githubhomework.components.lists.users.GitHubUserListAdapter
 import com.example.githubhomework.databinding.FragmentHomeBinding
 import com.example.githubhomework.repositories.GitHubUserRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
-import java.net.UnknownHostException
 
 class HomeFragment : Fragment() {
 
@@ -66,7 +66,10 @@ class HomeFragment : Fragment() {
 
         homeViewModel.searchResult.observe(this, Observer {
             binding.homeRecycleView.apply {
-                val userAdapter = GitHubUserListAdapter(it)
+                val userAdapter =
+                    GitHubUserListAdapter(
+                        it
+                    )
                 userAdapter.onShowUser = {
                     val intent = Intent(activity, GitHubUserActivity::class.java)
 

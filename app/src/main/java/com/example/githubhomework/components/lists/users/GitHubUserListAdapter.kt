@@ -1,6 +1,5 @@
-package com.example.githubhomework.ui.home
+package com.example.githubhomework.components.lists.users
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,10 @@ class GitHubUserListAdapter(private val users: List<GitHubUser>) : RecyclerView.
 
         val binding = DataBindingUtil.inflate<FragmentHomeListBinding>(layoutInflater, R.layout.fragment_home_list, parent, false)
 
-        return UserViewHolder(binding.root, binding)
+        return UserViewHolder(
+            binding.root,
+            binding
+        )
     }
 
     override fun getItemCount(): Int {
@@ -34,7 +36,10 @@ class GitHubUserListAdapter(private val users: List<GitHubUser>) : RecyclerView.
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val holder = holder as UserViewHolder
 
-        val viewModel = HomeListViewModel(users[position])
+        val viewModel =
+            HomeListViewModel(
+                users[position]
+            )
 
         viewModel.onShowUser = {
             onShowUser?.let { it(viewModel) }

@@ -1,4 +1,4 @@
-package com.example.githubhomework.ui.githubuser
+package com.example.githubhomework.components.lists.repositories
 
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +23,10 @@ class RepositoryListAdapter(private val repositories: List<GitHubRepository>) : 
 
         val binding = DataBindingUtil.inflate<FragmentGitHubUserListBinding>(layoutInflater, R.layout.fragment_git_hub_user_list, parent, false);
 
-        return RepositoryViewHolder(binding.root, binding)
+        return RepositoryViewHolder(
+            binding.root,
+            binding
+        )
     }
 
     override fun getItemCount(): Int {
@@ -33,14 +36,14 @@ class RepositoryListAdapter(private val repositories: List<GitHubRepository>) : 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val holder = holder as RepositoryViewHolder
 
-        holder.binding.viewModel = RepositoryListViewModel(repositories[position])
+        val viewModel =
+            RepositoryListViewModel(
+                repositories[position]
+            )
+        holder.binding.viewModel = viewModel
 
-//        val viewModel = RepositoryListViewModel(users[position])
-
-//        viewModel.onShowUser = {
-//            onShowUser?.let { it(viewModel) }
-//        }
-
-//        holder.binding.viewModel = viewModel
+        holder.binding.viewModel.onRepositoryShow = {
+            onShowRepository?.invoke(viewModel)
+        }
     }
 }

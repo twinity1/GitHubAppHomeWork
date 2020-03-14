@@ -8,5 +8,8 @@ data class GitHubRepository(
     val name: String,
 
     @SerializedName("full_name")
-    val fullName: String
+    val fullName: String,
+
+    @SerializedName("issues_url")
+    val issuesUrl: String
 )
