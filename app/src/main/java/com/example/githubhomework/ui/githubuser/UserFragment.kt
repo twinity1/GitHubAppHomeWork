@@ -12,18 +12,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.R
-import com.example.githubhomework.GitHubRepositoryActivity
+import com.example.githubhomework.RepositoryActivity
 import com.example.githubhomework.components.lists.repositories.RepositoryListAdapter
-import com.example.githubhomework.databinding.FragmentGitHubUserBinding
-import com.example.githubhomework.repositories.GitHubRepositoryRepository
+import com.example.githubhomework.databinding.FragmentUserBinding
+import com.example.githubhomework.repositories.RepositoryRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
-import kotlinx.android.synthetic.main.fragment_git_hub_user.*
+import kotlinx.android.synthetic.main.fragment_user.*
 
-class GitHubUserFragment : Fragment() {
+class UserFragment : Fragment() {
 
-    private lateinit var viewModel: GitHubUserViewModel
+    private lateinit var viewModel: UserViewModel
 
-    private lateinit var binding: FragmentGitHubUserBinding
+    private lateinit var binding: FragmentUserBinding
 
     lateinit var reposUrl: String
 
@@ -31,9 +31,9 @@ class GitHubUserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(GitHubUserViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_git_hub_user, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false)
 
         binding.viewModel = viewModel
 
@@ -47,9 +47,9 @@ class GitHubUserFragment : Fragment() {
             gitHubUserList.adapter = repositoryListAdapter
 
             repositoryListAdapter.onShowRepository = {
-                val intent = Intent(activity, GitHubRepositoryActivity::class.java)
+                val intent = Intent(activity, RepositoryActivity::class.java)
 
-                intent.putExtra(GitHubRepositoryActivity.REPOSITORY_FULLNAME_URL, it.entity.fullName)
+                intent.putExtra(RepositoryActivity.REPOSITORY_FULLNAME_URL, it.entity.fullName)
 
                 startActivity(intent)
             }
@@ -63,7 +63,7 @@ class GitHubUserFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        GitHubRepositoryRepository.shared.findAllByReposUrl(reposUrl) {
+        RepositoryRepository.shared.findAllByReposUrl(reposUrl) {
             it.fold(
                 onSuccess = {
                     viewModel.repositoryList.value = it

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.githubhomework.ui.githubuser.GitHubUserViewModel" />
+            type="com.example.githubhomework.ui.githubuser.UserViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

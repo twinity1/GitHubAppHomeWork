@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GitHubRepositoryActivity">
+    tools:context=".IssueActivity">
 
     <fragment
+        android:id="@+id/fragmentGitHubIssue"
+        android:name="com.example.githubhomework.ui.issue.IssueFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.githubhomework.ui.repository.GitHubRepositoryFragment"
-        android:id="@+id/fragmentRepository"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

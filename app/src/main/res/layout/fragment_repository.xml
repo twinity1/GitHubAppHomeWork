@@ -8,7 +8,7 @@
         android:id="@+id/fragmentRepository"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.repository.GitHubRepositoryFragment">
+        tools:context=".ui.repository.RepositoryFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/repositoryIssueList"

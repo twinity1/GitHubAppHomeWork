@@ -10,18 +10,17 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubhomework.GitHubIssueActivity
-import com.example.githubhomework.GitHubUserActivity
+import com.example.githubhomework.IssueActivity
 
 import com.example.githubhomework.R
-import com.example.githubhomework.components.lists.issues.RepositoryIssuesListAdapter
+import com.example.githubhomework.components.lists.issues.IssuesListAdapter
 import com.example.githubhomework.databinding.FragmentRepositoryBinding
-import com.example.githubhomework.repositories.GitHubRepositoryIssueRepository
+import com.example.githubhomework.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import kotlinx.android.synthetic.main.fragment_repository.*
 
-class GitHubRepositoryFragment : Fragment() {
-    private lateinit var viewModel: GitHubRepositoryViewModel
+class RepositoryFragment : Fragment() {
+    private lateinit var viewModel: RepositoryViewModel
 
     private lateinit var binding: FragmentRepositoryBinding
 
@@ -31,7 +30,7 @@ class GitHubRepositoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(GitHubRepositoryViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(RepositoryViewModel::class.java)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_repository, container, false)
 
@@ -42,15 +41,15 @@ class GitHubRepositoryFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-       GitHubRepositoryIssueRepository.shared.findAll(repositoryFullName) {
+       IssueRepository.shared.findAll(repositoryFullName) {
            it.fold(
                onSuccess = {
-                   val adapter = RepositoryIssuesListAdapter(it)
+                   val adapter = IssuesListAdapter(it)
 
                    adapter.onIssueShow = {
-                       val intent = Intent(activity, GitHubIssueActivity::class.java)
+                       val intent = Intent(activity, IssueActivity::class.java)
 
-                       intent.putExtra(GitHubIssueActivity.ISSUE_URL, it.entity.url)
+                       intent.putExtra(IssueActivity.ISSUE_URL, it.entity.url)
 
                        startActivity(intent)
                    }

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.githubhomework.components.lists.issues.RepositoryIssueListViewModel" />
+            type="com.example.githubhomework.components.lists.issues.IssueListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_height="80dp" android:layout_width="match_parent">

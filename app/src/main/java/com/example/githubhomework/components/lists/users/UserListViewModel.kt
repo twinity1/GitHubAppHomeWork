@@ -1,8 +1,8 @@
 package com.example.githubhomework.components.lists.users
 
-import com.example.githubhomework.entities.GitHubUser
+import com.example.githubhomework.entities.User
 
-class GitHubUserListViewModel(val gitHubUser: GitHubUser) {
+class UserListViewModel(val gitHubUser: User) {
     var onShowUser = {}
 
     fun onCardClick() {

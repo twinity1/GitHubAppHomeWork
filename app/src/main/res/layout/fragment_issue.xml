@@ -6,13 +6,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.githubhomework.ui.issue.GitHubIssueViewModel" />
+            type="com.example.githubhomework.ui.issue.IssueViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.issue.GitHubIssueFragment">
+        tools:context=".ui.issue.IssueFragment">
 
         <TextView
             android:layout_width="match_parent"

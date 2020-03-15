@@ -6,22 +6,23 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
-import com.example.githubhomework.databinding.FragmentGitHubUserListBinding
-import com.example.githubhomework.entities.GitHubRepository
+import com.example.githubhomework.databinding.FragmentUserBinding
+import com.example.githubhomework.databinding.FragmentUserListBinding
+import com.example.githubhomework.entities.Repository
 
-class RepositoryListAdapter(private val repositories: List<GitHubRepository>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RepositoryListAdapter(private val repositories: List<Repository>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
 
     var onShowRepository: ((RepositoryListViewModel) -> Unit)? = null
 
-    private class RepositoryViewHolder(itemView: View, var binding: FragmentGitHubUserListBinding) : RecyclerView.ViewHolder(itemView)
+    private class RepositoryViewHolder(itemView: View, var binding: FragmentUserListBinding) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (::layoutInflater.isInitialized == false) {
             layoutInflater = LayoutInflater.from(parent.context)
         }
 
-        val binding = DataBindingUtil.inflate<FragmentGitHubUserListBinding>(layoutInflater, R.layout.fragment_git_hub_user_list, parent, false);
+        val binding = DataBindingUtil.inflate<FragmentUserListBinding>(layoutInflater, R.layout.fragment_user_list, parent, false);
 
         return RepositoryViewHolder(
             binding.root,

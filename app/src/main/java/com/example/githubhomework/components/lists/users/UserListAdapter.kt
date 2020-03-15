@@ -7,12 +7,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeListBinding
-import com.example.githubhomework.entities.GitHubUser
+import com.example.githubhomework.entities.User
 
-class GitHubUserListAdapter(private val users: List<GitHubUser>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserListAdapter(private val users: List<User>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
 
-    var onShowUser: ((GitHubUserListViewModel) -> Unit)? = null
+    var onShowUser: ((UserListViewModel) -> Unit)? = null
 
     class UserViewHolder(itemView: View, val binding: FragmentHomeListBinding) : RecyclerView.ViewHolder(itemView)
 
@@ -37,7 +37,7 @@ class GitHubUserListAdapter(private val users: List<GitHubUser>) : RecyclerView.
         val holder = holder as UserViewHolder
 
         val viewModel =
-            GitHubUserListViewModel(
+            UserListViewModel(
                 users[position]
             )
 

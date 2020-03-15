@@ -11,10 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GitHubIssueActivity"></activity>
-        <activity android:name=".GitHubRepositoryActivity" />
+        <activity android:name=".IssueActivity"></activity>
+        <activity android:name=".RepositoryActivity" />
         <activity
-            android:name=".GitHubUserActivity"
+            android:name=".UserActivity"
             android:label="@string/title_activity_git_hub_user"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

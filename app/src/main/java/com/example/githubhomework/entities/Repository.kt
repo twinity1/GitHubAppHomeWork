@@ -2,7 +2,7 @@ package com.example.githubhomework.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class GitHubRepository(
+data class Repository(
     val id: Int,
 
     val name: String,

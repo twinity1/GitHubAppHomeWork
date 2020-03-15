@@ -10,25 +10,24 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 
 import com.example.githubhomework.R
-import com.example.githubhomework.databinding.FragmentGitHubIssueBinding
-import com.example.githubhomework.entities.GitHubRepositoryIssue
-import com.example.githubhomework.repositories.GitHubRepositoryIssueRepository
+import com.example.githubhomework.databinding.FragmentIssueBinding
+import com.example.githubhomework.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 
-class GitHubIssueFragment : Fragment() {
+class IssueFragment : Fragment() {
     lateinit var issueUrl: String
 
-    lateinit var viewModel: GitHubIssueViewModel
+    lateinit var viewModel: IssueViewModel
 
-    lateinit var binding: FragmentGitHubIssueBinding
+    lateinit var binding: FragmentIssueBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(GitHubIssueViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(IssueViewModel::class.java)
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_git_hub_issue, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_issue, container, false)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -39,7 +38,7 @@ class GitHubIssueFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        GitHubRepositoryIssueRepository.shared.findSingle(issueUrl) {
+        IssueRepository.shared.findSingle(issueUrl) {
             it.fold(
                 onSuccess = {
                     viewModel.entity.value = it

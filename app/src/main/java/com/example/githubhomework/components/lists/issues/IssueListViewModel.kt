@@ -1,10 +1,9 @@
 package com.example.githubhomework.components.lists.issues
 
 import androidx.lifecycle.ViewModel
-import com.example.githubhomework.entities.GitHubRepository
-import com.example.githubhomework.entities.GitHubRepositoryIssue
+import com.example.githubhomework.entities.Issue
 
-class RepositoryIssueListViewModel(val entity: GitHubRepositoryIssue) : ViewModel() {
+class IssueListViewModel(val entity: Issue) : ViewModel() {
     var number: String = ""
         get() = "#" + entity.number.toString()
 

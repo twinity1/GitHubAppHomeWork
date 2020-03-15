@@ -7,12 +7,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentIssuesListBinding
-import com.example.githubhomework.entities.GitHubRepositoryIssue
+import com.example.githubhomework.entities.Issue
 
-class RepositoryIssuesListAdapter(private val issues: List<GitHubRepositoryIssue>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class IssuesListAdapter(private val issues: List<Issue>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
 
-    var onIssueShow: ((RepositoryIssueListViewModel) -> Unit)? = null
+    var onIssueShow: ((IssueListViewModel) -> Unit)? = null
 
     private class ViewHolder(itemView: View, var binding: FragmentIssuesListBinding) : RecyclerView.ViewHolder(itemView)
 
@@ -36,7 +36,7 @@ class RepositoryIssuesListAdapter(private val issues: List<GitHubRepositoryIssue
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val holder = holder as ViewHolder
 
-        val viewModel = RepositoryIssueListViewModel(issues[position])
+        val viewModel = IssueListViewModel(issues[position])
 
         viewModel.onIssueShow = {
             onIssueShow?.invoke(viewModel)

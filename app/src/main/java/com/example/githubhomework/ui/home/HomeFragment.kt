@@ -13,11 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubhomework.GitHubUserActivity
+import com.example.githubhomework.UserActivity
 import com.example.githubhomework.R
-import com.example.githubhomework.components.lists.users.GitHubUserListAdapter
+import com.example.githubhomework.components.lists.users.UserListAdapter
 import com.example.githubhomework.databinding.FragmentHomeBinding
-import com.example.githubhomework.repositories.GitHubUserRepository
+import com.example.githubhomework.repositories.UserRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 
 class HomeFragment : Fragment() {
@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
 
             if (it.trim() != "") {
                 handler.postDelayed({
-                    GitHubUserRepository.shared.findByName(it) {
+                    UserRepository.shared.findByName(it) {
                         it.fold(
                             onSuccess = {
                                 homeViewModel.searchResult.value = it
@@ -71,13 +71,13 @@ class HomeFragment : Fragment() {
         homeViewModel.searchResult.observe(this, Observer {
             binding.homeRecycleView.apply {
                 val userAdapter =
-                    GitHubUserListAdapter(
+                    UserListAdapter(
                         it
                     )
                 userAdapter.onShowUser = {
-                    val intent = Intent(activity, GitHubUserActivity::class.java)
+                    val intent = Intent(activity, UserActivity::class.java)
 
-                    intent.putExtra(GitHubUserActivity.EXTRA_GITHUB_REPOSITORY_URL, it.gitHubUser.reposUrl)
+                    intent.putExtra(UserActivity.EXTRA_GITHUB_REPOSITORY_URL, it.gitHubUser.reposUrl)
 
                     startActivity(intent)
                 }
