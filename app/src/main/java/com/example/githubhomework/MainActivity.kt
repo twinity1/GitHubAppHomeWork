@@ -1,5 +1,6 @@
 package com.example.githubhomework
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -26,5 +27,11 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        startActivity(Intent(this, IssueActivity::class.java).putExtra(IssueActivity.ISSUE_URL, "https://api.github.com/repos/twinity1/GitHubAppHomeWork/issues/1"))
     }
 }

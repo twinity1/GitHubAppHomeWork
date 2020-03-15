@@ -14,3 +14,7 @@ data class Issue(
 
     val body: String
 )
+{
+    var numberWithHash = ""
+        get() = "#" + number.toString()
+}

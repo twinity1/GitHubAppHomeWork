@@ -58,7 +58,9 @@ class RepositoryFragment : Fragment() {
                    repositoryIssueList.adapter = adapter
                },
                onFailure = {
-                    Toast.makeText(activity!!, activity!!.getString(ErrorMessageHandler().getStringIdByException(it)), Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity!!, ErrorMessageHandler().getStringByException(it), Toast.LENGTH_LONG).show()
+
+                   activity?.finish()
                }
            )
        }

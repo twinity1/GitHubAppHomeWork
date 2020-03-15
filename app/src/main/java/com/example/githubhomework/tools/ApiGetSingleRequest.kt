@@ -5,6 +5,7 @@ import android.os.Looper
 import com.google.gson.*
 import okhttp3.*
 import java.io.IOException
+import java.lang.Exception
 import java.lang.IllegalStateException
 import java.net.URL
 
@@ -12,6 +13,8 @@ class ApiGetSingleRequest {
     var gson = Gson()
 
     private var httpClient = OkHttpClient()
+
+    class ApiGetSingleForbiddenException(message: String) : Exception(message)
 
     fun <T> getAsObject(url: String, classType: Class<T>, completionHandler: (Result<T>) -> Unit) {
         val url = URL(url)
@@ -30,20 +33,28 @@ class ApiGetSingleRequest {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body()!!.string()
 
-                try {
-                    val parseResult = parseJsonResult(body!!, classType)
+                if (response.code() == 200) {
+                    try {
+                        val parseResult = parseJsonResult(body!!, classType)
+
+                        uiHandler.post {
+                            completionHandler(Result.success(parseResult))
+                        }
+
+                    } catch (e: IllegalStateException) {
+                        uiHandler.post {
+                            completionHandler(Result.failure(e))
+                        }
+                    } catch (e: JsonSyntaxException) {
+                        uiHandler.post {
+                            completionHandler(Result.failure(e))
+                        }
+                    }
+                } else if (response.code() == 403) {
+                    val message = JsonParser().parse(body).asJsonObject["message"].asString
 
                     uiHandler.post {
-                        completionHandler(Result.success(parseResult))
-                    }
-
-                } catch (e: IllegalStateException) {
-                    uiHandler.post {
-                        completionHandler(Result.failure(e))
-                    }
-                } catch (e: JsonSyntaxException) {
-                    uiHandler.post {
-                        completionHandler(Result.failure(e))
+                        completionHandler(Result.failure(ApiGetSingleForbiddenException(message)))
                     }
                 }
             }
@@ -52,7 +63,7 @@ class ApiGetSingleRequest {
 
 
     private fun <T> parseJsonResult(content: String, classType: Class<T>): T {
-        var jsonElement = JsonParser().parse(content)
+        val jsonElement = JsonParser().parse(content)
 
         val result = gson.fromJson(jsonElement, classType)
 

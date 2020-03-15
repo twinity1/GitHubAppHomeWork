@@ -1,14 +1,19 @@
 package com.example.githubhomework.tools
 
+import android.content.res.Resources
 import com.example.githubhomework.R
 import java.net.UnknownHostException
 
 class ErrorMessageHandler {
-    fun getStringIdByException(e: Throwable): Int {
+    fun getStringByException(e: Throwable): String {
         if (e is UnknownHostException) {
-            return R.string.network_error
+            return Resources.getSystem().getString(R.string.network_error)
         }
 
-        return R.string.unknown_error
+        if (e is ApiGetSingleRequest.ApiGetSingleForbiddenException && e.message != null) {
+            return e.message!!
+        }
+
+        return Resources.getSystem().getString(R.string.unknown_error)
     }
 }

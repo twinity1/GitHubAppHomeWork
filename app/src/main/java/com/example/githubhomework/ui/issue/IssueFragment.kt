@@ -44,7 +44,7 @@ class IssueFragment : Fragment() {
                     viewModel.entity.value = it
                 },
                 onFailure =  {
-                    Toast.makeText(activity, activity!!.getString(ErrorMessageHandler().getStringIdByException(it)), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it), Toast.LENGTH_SHORT).show()
                 }
             )
         }
