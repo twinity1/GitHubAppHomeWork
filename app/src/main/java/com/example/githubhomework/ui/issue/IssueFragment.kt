@@ -13,6 +13,8 @@ import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentIssueBinding
 import com.example.githubhomework.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
+import io.noties.markwon.Markwon
+import kotlinx.android.synthetic.main.fragment_issue.*
 
 class IssueFragment : Fragment() {
     lateinit var issueUrl: String
@@ -42,6 +44,8 @@ class IssueFragment : Fragment() {
             it.fold(
                 onSuccess = {
                     viewModel.entity.value = it
+
+                    Markwon.create(activity!!).setMarkdown(issueBody, it.body)
                 },
                 onFailure =  {
                     Toast.makeText(activity, ErrorMessageHandler().getStringByException(it), Toast.LENGTH_SHORT).show()

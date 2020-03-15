@@ -32,7 +32,7 @@
                     />
 
                 <TextView
-                    android:text="@{viewModel.entity.body}"
+                    android:id="@+id/issueBody"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"

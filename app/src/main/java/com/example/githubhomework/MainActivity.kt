@@ -31,7 +31,5 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
-        startActivity(Intent(this, IssueActivity::class.java).putExtra(IssueActivity.ISSUE_URL, "https://api.github.com/repos/twinity1/GitHubAppHomeWork/issues/1"))
     }
 }
