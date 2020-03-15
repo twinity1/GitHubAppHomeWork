@@ -5,6 +5,7 @@ import android.os.Looper
 import com.google.gson.*
 import okhttp3.*
 import java.io.IOException
+import java.lang.Exception
 import java.lang.IllegalStateException
 import java.net.URL
 
@@ -14,6 +15,8 @@ class ApiGetMultipleRequest {
     var onJsonParse: ((JsonElement) -> JsonArray)? = null
 
     private var httpClient = OkHttpClient()
+
+    class ApiGetMultipleForbiddenException(message: String) : Exception(message)
 
     fun <T> getAsList(url: String, classType: Class<T>, completionHandler: (Result<List<T>>) -> Unit) {
         val url = URL(url)
@@ -32,20 +35,28 @@ class ApiGetMultipleRequest {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body()!!.string()
 
-                try {
-                    val parseResult = parseJsonResult(body!!, classType)
+                if (response.code() == 200) {
+                    try {
+                        val parseResult = parseJsonResult(body!!, classType)
 
-                    uiHandler.post {
-                        completionHandler(Result.success(parseResult))
-                    }
+                        uiHandler.post {
+                            completionHandler(Result.success(parseResult))
+                        }
 
-                } catch (e: IllegalStateException) {
-                    uiHandler.post {
-                        completionHandler(Result.failure(e))
+                    } catch (e: IllegalStateException) {
+                        uiHandler.post {
+                            completionHandler(Result.failure(e))
+                        }
+                    } catch (e: JsonSyntaxException) {
+                        uiHandler.post {
+                            completionHandler(Result.failure(e))
+                        }
                     }
-                } catch (e: JsonSyntaxException) {
+                } else if (response.code() == 403) {
                     uiHandler.post {
-                        completionHandler(Result.failure(e))
+                        val message = JsonParser().parse(body).asJsonObject["message"].asString
+
+                        completionHandler(Result.failure(ApiGetMultipleForbiddenException(message)))
                     }
                 }
             }

@@ -6,7 +6,6 @@ import com.google.gson.*
 import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
-import java.lang.IllegalStateException
 import java.net.URL
 
 class ApiGetSingleRequest {
@@ -41,11 +40,8 @@ class ApiGetSingleRequest {
                             completionHandler(Result.success(parseResult))
                         }
 
-                    } catch (e: IllegalStateException) {
-                        uiHandler.post {
-                            completionHandler(Result.failure(e))
-                        }
-                    } catch (e: JsonSyntaxException) {
+                    }
+                    catch (e: JsonSyntaxException) {
                         uiHandler.post {
                             completionHandler(Result.failure(e))
                         }

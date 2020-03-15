@@ -9,7 +9,6 @@ class IssueRepository {
         val shared = IssueRepository()
     }
 
-
     private val baseApiUrl = "https://api.github.com/repos/"
 
     fun findAll(repositoryFullName: String, completionHandler: (Result<List<Issue>>) -> Unit) {

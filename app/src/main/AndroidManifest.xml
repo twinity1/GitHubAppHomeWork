@@ -12,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".IssueActivity"></activity>
-        <activity android:name=".RepositoryActivity" />
+        <activity
+            android:name=".RepositoryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+
         <activity
             android:name=".UserActivity"
             android:label="@string/title_activity_git_hub_user"

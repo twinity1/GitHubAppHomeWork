@@ -4,22 +4,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragmentRepository"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.repository.RepositoryFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/repositoryIssueList"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/backLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!-- Must contain a Toolbar -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/navigationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                app:elevation="0dp"
+                app:itemBackground="@drawable/bg_menu_item"
+                app:itemTextColor="@color/white"
+                app:menu="@menu/bottom_nav_menu"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/foregroundContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:background="@drawable/bg_top_radius"
+            android:clickable="true"
+            android:elevation="4dp"
+            android:focusable="true"
+            android:paddingTop="@dimen/foreground_radius"
+            app:layout_behavior="ru.semper_viventem.backdrop.BackdropBehavior">
+
+            <com.google.android.material.card.MaterialCardView
+                app:cardCornerRadius="8dp"
+                android:elevation="4dp"
+                app:layout_behavior="ru.semper_viventem.backdrop.BackdropBehavior"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/repositoryIssueList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </FrameLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -11,5 +11,8 @@ data class Repository(
     val fullName: String,
 
     @SerializedName("issues_url")
-    val issuesUrl: String
+    val issuesUrl: String,
+
+    @SerializedName("labels_url")
+    val labelsUrl: String
 )

@@ -12,7 +12,9 @@ data class Issue(
 
     val url: String,
 
-    val body: String
+    val body: String,
+
+    var labels: List<Label>
 )
 {
     var numberWithHash = ""

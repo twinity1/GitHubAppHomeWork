@@ -70,7 +70,7 @@ class UserFragment : Fragment() {
 
                 },
                 onFailure = {
-                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it), Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, activity!!.resources), Toast.LENGTH_LONG).show()
                 }
             )
         }

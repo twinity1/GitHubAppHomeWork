@@ -48,7 +48,7 @@ class IssueFragment : Fragment() {
                     Markwon.create(activity!!).setMarkdown(issueBody, it.body)
                 },
                 onFailure =  {
-                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, activity!!.resources), Toast.LENGTH_SHORT).show()
                 }
             )
         }
