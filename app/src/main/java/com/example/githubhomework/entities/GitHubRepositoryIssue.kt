@@ -10,5 +10,7 @@ data class GitHubRepositoryIssue(
 
     val number: Int,
 
-    val url: String
+    val url: String,
+
+    val body: String
 )

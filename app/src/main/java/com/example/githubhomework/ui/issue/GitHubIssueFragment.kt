@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentGitHubIssueBinding
+import com.example.githubhomework.entities.GitHubRepositoryIssue
 import com.example.githubhomework.repositories.GitHubRepositoryIssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 
@@ -30,6 +31,7 @@ class GitHubIssueFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_git_hub_issue, container, false)
 
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
         return binding.root
     }
