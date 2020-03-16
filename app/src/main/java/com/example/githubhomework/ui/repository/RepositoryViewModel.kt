@@ -1,9 +1,13 @@
 package com.example.githubhomework.ui.repository
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.githubhomework.entities.Issue
+import com.example.githubhomework.entities.Label
 
 class RepositoryViewModel : ViewModel() {
-    var issueList = MutableLiveData<List<Issue>>()
+    val issueList = MutableLiveData<List<Issue>>()
+
+    var selectedLabels = MutableLiveData<List<Label>>()
+
+    var labelList = MutableLiveData<List<Label>>()
 }

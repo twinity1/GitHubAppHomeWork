@@ -21,6 +21,7 @@ class UserRepository {
 
         apiRequest.onJsonParse = { it.asJsonObject["items"].asJsonArray }
 
+
         apiRequest.getAsList(userFindUrl, User::class.java) {
             completionHandler(it)
         }

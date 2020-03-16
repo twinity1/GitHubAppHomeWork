@@ -70,10 +70,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.searchResult.observe(this, Observer {
             binding.homeRecycleView.apply {
-                val userAdapter =
-                    UserListAdapter(
-                        it
-                    )
+                val userAdapter = UserListAdapter(it)
                 userAdapter.onShowUser = {
                     val intent = Intent(activity, UserActivity::class.java)
 
