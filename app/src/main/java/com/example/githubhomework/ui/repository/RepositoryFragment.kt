@@ -17,11 +17,10 @@ import com.example.githubhomework.IssueActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.components.lists.issues.IssuesListAdapter
 import com.example.githubhomework.databinding.FragmentRepositoryBinding
-import com.example.githubhomework.entities.helpers.LabelExtractor
+import com.example.githubhomework.entities.Label
 import com.example.githubhomework.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.fragment_repository.*
 import ru.semper_viventem.backdrop.BackdropBehavior
 
@@ -59,18 +58,45 @@ class RepositoryFragment : Fragment() {
         viewModel.labelList.observe(this, Observer {
             filterChipGroup.removeAllViews()
 
+            val selectedLabels = HashMap<Label, Boolean>()
+
             it.forEach {
                 val chip = Chip(context, null, R.style.Widget_MaterialComponents_Chip_Filter)
 
                 chip.text = it.name
                 chip.isCheckable = true
+                chip.isEnabled = true
 
-                chip.setOnCheckedChangeListener { buttonView, isChecked ->
-                    viewModel.issueList.value = viewModel.issueList.value
+                selectedLabels.put(it, false)
+
+                val label = it
+
+                chip.setOnClickListener {
+                    val isSelected = selectedLabels[label]!!
+
+                    selectedLabels[label] = !isSelected
+                    viewModel.filterIssues()
                 }
 
                 filterChipGroup.addView(chip)
             }
+
+            viewModel.selectedLabels.value = selectedLabels
+        })
+
+        viewModel.issueList.observe(this, Observer {
+            val adapter = IssuesListAdapter(it)
+
+            adapter.onIssueShow = {
+                val intent = Intent(activity, IssueActivity::class.java)
+
+                intent.putExtra(IssueActivity.ISSUE_URL, it.entity.url)
+
+                startActivity(intent)
+            }
+
+            repositoryIssueList.layoutManager = LinearLayoutManager(activity)
+            repositoryIssueList.adapter = adapter
         })
     }
 
@@ -80,20 +106,7 @@ class RepositoryFragment : Fragment() {
        IssueRepository.shared.findAll(repositoryFullName) {
            it.fold(
                onSuccess = {
-                   val adapter = IssuesListAdapter(it)
-
-                   adapter.onIssueShow = {
-                       val intent = Intent(activity, IssueActivity::class.java)
-
-                       intent.putExtra(IssueActivity.ISSUE_URL, it.entity.url)
-
-                       startActivity(intent)
-                   }
-
-                   repositoryIssueList.layoutManager = LinearLayoutManager(activity)
-                   repositoryIssueList.adapter = adapter
-
-                   viewModel.labelList.value = LabelExtractor.extractFromIssueList(it)
+                   viewModel.issueData = it
                },
                onFailure = {
                     Toast.makeText(activity!!, ErrorMessageHandler().getStringByException(it, activity!!.resources), Toast.LENGTH_LONG).show()
