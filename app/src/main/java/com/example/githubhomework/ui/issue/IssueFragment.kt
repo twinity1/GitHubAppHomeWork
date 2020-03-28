@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import com.example.githubhomework.R
@@ -15,6 +17,7 @@ import com.example.githubhomework.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import io.noties.markwon.Markwon
 import kotlinx.android.synthetic.main.fragment_issue.*
+import kotlinx.android.synthetic.main.fragment_repository.*
 
 class IssueFragment : Fragment() {
     lateinit var issueUrl: String
@@ -40,6 +43,14 @@ class IssueFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        var toolbar = (this.activity as AppCompatActivity).supportActionBar
+
+        toolbar?.title = ""
+
+        viewModel.entity.observe(this, Observer {
+            toolbar?.title = "Issue ${it.title}"
+        })
+
         IssueRepository.shared.findSingle(issueUrl) {
             it.fold(
                 onSuccess = {
@@ -49,6 +60,7 @@ class IssueFragment : Fragment() {
                 },
                 onFailure =  {
                     Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, activity!!.resources), Toast.LENGTH_SHORT).show()
+                    activity!!.finish()
                 }
             )
         }
