@@ -1,6 +1,7 @@
 package com.example.githubhomework.ui.repository
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.IssueActivity
 
@@ -53,6 +56,7 @@ class RepositoryFragment : Fragment() {
 
         with(backdropBehavior) {
             attachBackLayout(R.id.backLayout)
+            backdropBehavior.setClosedIcon(R.drawable.baseline_filter_list_white_24)
         }
 
         viewModel.labelList.observe(this, Observer {
@@ -66,6 +70,8 @@ class RepositoryFragment : Fragment() {
                 chip.text = it.name
                 chip.isCheckable = true
                 chip.isEnabled = true
+                chip.setChipBackgroundColorResource(R.color.colorPrimaryLight)
+                chip.setTextColor(Color.WHITE)
 
                 selectedLabels.put(it, false)
 
@@ -87,6 +93,10 @@ class RepositoryFragment : Fragment() {
         viewModel.issueList.observe(this, Observer {
             val adapter = IssuesListAdapter(it)
 
+            val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.item_separator)!!)
+            repositoryIssueList.addItemDecoration(divider)
+
             adapter.onIssueShow = {
                 val intent = Intent(activity, IssueActivity::class.java)
 
@@ -103,7 +113,9 @@ class RepositoryFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-       IssueRepository.shared.findAll(repositoryFullName) {
+        toolbar.title = repositoryFullName
+
+        IssueRepository.shared.findAll(repositoryFullName) {
            it.fold(
                onSuccess = {
                    viewModel.issueData = it
