@@ -18,6 +18,7 @@ import com.example.githubhomework.databinding.FragmentUserBinding
 import com.example.githubhomework.repositories.RepositoryRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import kotlinx.android.synthetic.main.fragment_user.*
+import org.koin.android.ext.android.inject
 
 class UserFragment : Fragment() {
 
@@ -26,6 +27,8 @@ class UserFragment : Fragment() {
     private lateinit var binding: FragmentUserBinding
 
     lateinit var reposUrl: String
+
+    private val repositoryRepository: RepositoryRepository by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +40,7 @@ class UserFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        viewModel.repositoryList.observe(this, Observer {
+        viewModel.repositoryList.observe(viewLifecycleOwner, Observer {
             val repositoryListAdapter =
                 RepositoryListAdapter(
                     it
@@ -63,14 +66,14 @@ class UserFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        RepositoryRepository.shared.findAllByReposUrl(reposUrl) {
+        repositoryRepository.findAllByReposUrl(reposUrl) {
             it.fold(
                 onSuccess = {
                     viewModel.repositoryList.value = it
 
                 },
                 onFailure = {
-                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, activity!!.resources), Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, requireActivity().resources), Toast.LENGTH_LONG).show()
                 }
             )
         }

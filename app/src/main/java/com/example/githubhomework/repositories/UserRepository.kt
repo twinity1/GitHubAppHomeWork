@@ -5,24 +5,17 @@ import com.example.githubhomework.tools.ApiGetMultipleRequest
 import okhttp3.*
 import java.net.URLEncoder
 
-class UserRepository {
+class UserRepository(private val multipleRequest: ApiGetMultipleRequest) {
     private val baseUserApiUrl = "https://api.github.com/search/users?q="
 
     private val httpClient = OkHttpClient()
 
-    companion object {
-        val shared = UserRepository()
-    }
-
     fun findByName(name: String, completionHandler: (Result<List<User>>) -> Unit) {
         val userFindUrl = baseUserApiUrl + URLEncoder.encode( name, "UTF-8")
 
-        val apiRequest = ApiGetMultipleRequest()
+        multipleRequest.onJsonParse = { it.asJsonObject["items"].asJsonArray }
 
-        apiRequest.onJsonParse = { it.asJsonObject["items"].asJsonArray }
-
-
-        apiRequest.getAsList(userFindUrl, User::class.java) {
+        multipleRequest.getAsList(userFindUrl, User::class.java) {
             completionHandler(it)
         }
     }

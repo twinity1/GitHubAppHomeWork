@@ -26,6 +26,7 @@ import com.example.githubhomework.tools.ErrorMessageHandler
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_repository.*
 import ru.semper_viventem.backdrop.BackdropBehavior
+import org.koin.android.ext.android.inject
 
 class RepositoryFragment : Fragment() {
     private lateinit var viewModel: RepositoryViewModel
@@ -35,6 +36,8 @@ class RepositoryFragment : Fragment() {
     lateinit var repositoryFullName: String
 
     private lateinit var backdropBehavior: BackdropBehavior
+
+    private val issueRepository: IssueRepository by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +62,7 @@ class RepositoryFragment : Fragment() {
             backdropBehavior.setClosedIcon(R.drawable.baseline_filter_list_white_24)
         }
 
-        viewModel.labelList.observe(this, Observer {
+        viewModel.labelList.observe(viewLifecycleOwner, Observer {
             filterChipGroup.removeAllViews()
 
             val selectedLabels = HashMap<Label, Boolean>()
@@ -90,11 +93,11 @@ class RepositoryFragment : Fragment() {
             viewModel.selectedLabels.value = selectedLabels
         })
 
-        viewModel.issueList.observe(this, Observer {
+        viewModel.issueList.observe(viewLifecycleOwner, Observer {
             val adapter = IssuesListAdapter(it)
 
             val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-            divider.setDrawable(ContextCompat.getDrawable(context!!, R.drawable.item_separator)!!)
+            divider.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.item_separator)!!)
             repositoryIssueList.addItemDecoration(divider)
 
             adapter.onIssueShow = {
@@ -115,13 +118,13 @@ class RepositoryFragment : Fragment() {
 
         toolbar.title = repositoryFullName
 
-        IssueRepository.shared.findAll(repositoryFullName) {
+        issueRepository.findAll(repositoryFullName) {
            it.fold(
                onSuccess = {
                    viewModel.issueData = it
                },
                onFailure = {
-                    Toast.makeText(activity!!, ErrorMessageHandler().getStringByException(it, activity!!.resources), Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireActivity(), ErrorMessageHandler().getStringByException(it, requireActivity().resources), Toast.LENGTH_LONG).show()
 
                    activity?.finish()
                }

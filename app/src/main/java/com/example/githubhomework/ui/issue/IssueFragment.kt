@@ -17,7 +17,7 @@ import com.example.githubhomework.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import io.noties.markwon.Markwon
 import kotlinx.android.synthetic.main.fragment_issue.*
-import kotlinx.android.synthetic.main.fragment_repository.*
+import org.koin.android.ext.android.inject
 
 class IssueFragment : Fragment() {
     lateinit var issueUrl: String
@@ -25,6 +25,8 @@ class IssueFragment : Fragment() {
     lateinit var viewModel: IssueViewModel
 
     lateinit var binding: FragmentIssueBinding
+
+    private val issueRepository: IssueRepository by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,16 +53,16 @@ class IssueFragment : Fragment() {
             toolbar?.title = "Issue ${it.title}"
         })
 
-        IssueRepository.shared.findSingle(issueUrl) {
+        issueRepository.findSingle(issueUrl) {
             it.fold(
                 onSuccess = {
                     viewModel.entity.value = it
 
-                    Markwon.create(activity!!).setMarkdown(issueBody, it.body)
+                    Markwon.create(requireActivity()).setMarkdown(issueBody, it.body)
                 },
                 onFailure =  {
-                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, activity!!.resources), Toast.LENGTH_SHORT).show()
-                    activity!!.finish()
+                    Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, requireActivity().resources), Toast.LENGTH_SHORT).show()
+                    requireActivity().finish()
                 }
             )
         }

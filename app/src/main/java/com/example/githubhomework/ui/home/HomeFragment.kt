@@ -17,17 +17,19 @@ import com.example.githubhomework.UserActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.components.lists.users.UserListAdapter
 import com.example.githubhomework.databinding.FragmentHomeBinding
+import com.example.githubhomework.myModule
 import com.example.githubhomework.repositories.UserRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
+import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    lateinit var homeViewModel: HomeViewModel
 
-    private lateinit var binding: FragmentHomeBinding
+    lateinit var binding: FragmentHomeBinding
 
-    private val handler = Handler(Looper.getMainLooper())
-
+    private val searchObserver: SearchObserver by inject()
+    private val recycleViewObserver: RecycleViewObserver by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,42 +48,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.searchText.observe(this, Observer {
-            handler.removeCallbacksAndMessages(null)
-
-            if (it.trim() != "") {
-                handler.postDelayed({
-                    UserRepository.shared.findByName(it) {
-                        it.fold(
-                            onSuccess = {
-                                homeViewModel.searchResult.value = it
-                            },
-
-                            onFailure = {
-                                Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, activity!!.resources), Toast.LENGTH_LONG).show()
-                            }
-                        )
-                    }
-                }, 300)
-            } else {
-                homeViewModel.searchResult.value = listOf()
-            }
-        })
-
-        homeViewModel.searchResult.observe(this, Observer {
-            binding.homeRecycleView.apply {
-                val userAdapter = UserListAdapter(it)
-                userAdapter.onShowUser = {
-                    val intent = Intent(activity, UserActivity::class.java)
-
-                    intent.putExtra(UserActivity.EXTRA_GITHUB_REPOSITORY_URL, it.gitHubUser.reposUrl)
-
-                    startActivity(intent)
-                }
-
-                layoutManager = LinearLayoutManager(activity)
-                adapter = userAdapter
-            }
-        })
+        homeViewModel.searchText.observe(viewLifecycleOwner, searchObserver.create(this))
+        homeViewModel.searchResult.observe(viewLifecycleOwner, recycleViewObserver.create(this))
     }
 }

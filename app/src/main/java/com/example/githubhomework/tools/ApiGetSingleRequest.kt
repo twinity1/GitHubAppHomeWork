@@ -2,16 +2,15 @@ package com.example.githubhomework.tools
 
 import android.os.Handler
 import android.os.Looper
+import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.google.gson.*
 import okhttp3.*
 import java.io.IOException
 import java.lang.Exception
 import java.net.URL
 
-class ApiGetSingleRequest {
+class ApiGetSingleRequest(private val httpClient: HttpClient) {
     var gson = Gson()
-
-    private var httpClient = OkHttpClient()
 
     class ApiGetSingleForbiddenException(message: String) : Exception(message)
 
@@ -22,7 +21,7 @@ class ApiGetSingleRequest {
 
         val uiHandler = Handler(Looper.getMainLooper())
 
-        httpClient.newCall(request).enqueue(object : Callback {
+        httpClient.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 uiHandler.post {
                     completionHandler(Result.failure(e))

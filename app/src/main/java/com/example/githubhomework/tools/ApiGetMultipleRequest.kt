@@ -2,6 +2,7 @@ package com.example.githubhomework.tools
 
 import android.os.Handler
 import android.os.Looper
+import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.google.gson.*
 import okhttp3.*
 import java.io.IOException
@@ -9,12 +10,10 @@ import java.lang.Exception
 import java.lang.IllegalStateException
 import java.net.URL
 
-class ApiGetMultipleRequest {
+class ApiGetMultipleRequest(private val httpClient: HttpClient) {
     var gson = Gson()
 
     var onJsonParse: ((JsonElement) -> JsonArray)? = null
-
-    private var httpClient = OkHttpClient()
 
     class ApiGetMultipleForbiddenException(message: String) : Exception(message)
 
@@ -25,7 +24,7 @@ class ApiGetMultipleRequest {
 
         val uiHandler = Handler(Looper.getMainLooper())
 
-        httpClient.newCall(request).enqueue(object : Callback {
+        httpClient.client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 uiHandler.post {
                     completionHandler(Result.failure(e))
