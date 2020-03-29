@@ -9,8 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-
+import androidx.lifecycle.ViewModelProvider
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentIssueBinding
 import com.example.githubhomework.repositories.IssueRepository
@@ -32,7 +31,7 @@ class IssueFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(IssueViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(IssueViewModel::class.java)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_issue, container, false)
 

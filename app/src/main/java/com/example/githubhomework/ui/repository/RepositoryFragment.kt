@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.githubhomework.IssueFormActivity
 import com.example.githubhomework.R
@@ -38,7 +39,7 @@ class RepositoryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(RepositoryViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(RepositoryViewModel::class.java)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_repository, container, false)
 
