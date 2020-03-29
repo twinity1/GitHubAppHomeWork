@@ -7,4 +7,5 @@
     <dimen name="foreground_radius">16dp</dimen>
     <dimen name="menu_radius">8dp</dimen>
     <dimen name="big_gap">32dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
 </resources>
