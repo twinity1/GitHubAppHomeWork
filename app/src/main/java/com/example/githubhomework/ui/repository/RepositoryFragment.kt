@@ -1,6 +1,6 @@
 package com.example.githubhomework.ui.repository
 
-import android.opengl.Visibility
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.example.githubhomework.IssueFormActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.components.ui.backdrop.findBehavior
 import com.example.githubhomework.databinding.FragmentRepositoryBinding
@@ -42,6 +43,7 @@ class RepositoryFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_repository, container, false)
 
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -58,6 +60,10 @@ class RepositoryFragment : Fragment() {
 
         viewModel.labelList.observe(viewLifecycleOwner, labelObserver.create(this))
         viewModel.issueList.observe(viewLifecycleOwner, issueObserver.create(this))
+
+        viewModel.onNewIssueShow = {
+            startActivity(Intent(requireActivity(), IssueFormActivity::class.java))
+        }
     }
 
     override fun onStart() {

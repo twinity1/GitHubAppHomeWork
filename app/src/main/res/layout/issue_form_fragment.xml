@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.githubhomework.ui.issueform.IssueFormViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/issueform"
+        android:layout_margin="@dimen/big_gap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.issueform.IssueFormFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/issueTitleLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/contentLayout"
+            >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title"
+            android:inputType="text"
+            android:maxLines="1"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintHeight_default="spread"
+            android:layout_marginTop="@dimen/fab_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/issueTitleLayout"
+            app:layout_constraintBottom_toTopOf="@+id/submitBtn"
+            >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:hint="@string/content"
+            android:gravity="top|start"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_marginTop="@dimen/big_gap"
+            android:text="@{viewModel.submitBtnTitle}"
+            android:id="@+id/submitBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintHeight_default="wrap"
+            app:layout_constrainedHeight="true"
+            style="@style/Widget.MaterialComponents.Button"
+            app:layout_constraintTop_toBottomOf="@+id/contentLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -6,20 +6,21 @@ import com.example.githubhomework.entities.Label
 import com.example.githubhomework.entities.helpers.LabelExtractor
 
 class RepositoryViewModel : ViewModel() {
+    var onNewIssueShow = {}
+
+    //recycle view
     var issueData: List<Issue> = ArrayList()
         set(value) {
             field = value
             
             issueList.value = value
             labelList.value = LabelExtractor.extractFromIssueList(value)
-//            selectedLabels.value = ArrayList()
         }
 
     val issueList = MutableLiveData<List<Issue>>()
-
     var selectedLabels = MutableLiveData<HashMap<Label, Boolean>>()
-
     var labelList = MutableLiveData<List<Label>>()
+    //end recycle view
 
     fun filterIssues() {
         val selectedLabelsList = selectedLabels.value!!.filterValues { it == true }.keys
@@ -35,5 +36,9 @@ class RepositoryViewModel : ViewModel() {
         if (resultList != issueList.value) {
             issueList.value = resultList
         }
+    }
+
+    fun onNewIssueAdd() {
+      onNewIssueShow.invoke()
     }
 }

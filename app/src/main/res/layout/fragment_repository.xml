@@ -5,6 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.githubhomework.ui.repository.RepositoryViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
@@ -63,6 +69,7 @@
                     </androidx.recyclerview.widget.RecyclerView>
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:onClick="@{() -> viewModel.onNewIssueAdd()}"
                         android:id="@+id/addIssue"
                         android:src="@drawable/baseline_add_white_24"
                         app:layout_constraintEnd_toEndOf="parent"
