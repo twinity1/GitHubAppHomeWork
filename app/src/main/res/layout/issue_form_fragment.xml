@@ -11,7 +11,6 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/issueform"
-        android:layout_margin="@dimen/big_gap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.issueform.IssueFormFragment">
@@ -32,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title"
+            android:text="@={viewModel.title}"
             android:inputType="text"
             android:maxLines="1"
             />
@@ -51,6 +51,7 @@
             >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:text="@={viewModel.content}"
             android:hint="@string/content"
             android:gravity="top|start"
             android:layout_width="match_parent"
@@ -62,6 +63,7 @@
         <Button
             android:layout_marginTop="@dimen/big_gap"
             android:text="@{viewModel.submitBtnTitle}"
+            android:onClick="@{() -> viewModel.onIssueSubmit()}"
             android:id="@+id/submitBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

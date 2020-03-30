@@ -9,15 +9,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.IssueFormFragmentBinding
+import com.example.githubhomework.entities.Issue
+import com.example.githubhomework.repositories.IssueRepository
+import org.koin.android.ext.android.inject
 
 class IssueFormFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = IssueFormFragment()
-    }
+    val issueRepository: IssueRepository by inject();
+
 
     private lateinit var viewModel: IssueFormViewModel
     private lateinit var binding: IssueFormFragmentBinding
+
+    lateinit var repositoryFullName: String
+    var issue: Issue? = null
 
 
     override fun onCreateView(
@@ -32,5 +37,19 @@ class IssueFormFragment : Fragment() {
         binding.lifecycleOwner = this
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        viewModel.onSubmit = {
+            var issue = issue ?: Issue(title = "", body = "")
+            issue.title = viewModel.title
+            issue.body = viewModel.content
+
+            issueRepository.saveIssue(repositoryFullName, issue) {
+
+            }
+        }
     }
 }

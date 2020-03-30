@@ -3,18 +3,18 @@ package com.example.githubhomework.entities
 import com.google.gson.annotations.SerializedName
 
 data class Issue(
-    val title: String,
+    var title: String,
+
+    var body: String,
 
     @SerializedName("labels_url")
-    val labelsUrl: String,
+    var labelsUrl: String = "",
 
-    val number: Int,
+    var number: Int = 0,
 
-    val url: String,
+    var url: String = "",
 
-    val body: String,
-
-    var labels: List<Label>
+    var labels: List<Label> = listOf()
 )
 {
     var numberWithHash = ""

@@ -63,7 +63,9 @@ class RepositoryFragment : Fragment() {
         viewModel.issueList.observe(viewLifecycleOwner, issueObserver.create(this))
 
         viewModel.onNewIssueShow = {
-            startActivity(Intent(requireActivity(), IssueFormActivity::class.java))
+            val intent = Intent(requireActivity(), IssueFormActivity::class.java)
+            intent.putExtra(IssueFormActivity.FULL_REPOSITORY_NAME, repositoryFullName)
+            startActivity(intent)
         }
     }
 

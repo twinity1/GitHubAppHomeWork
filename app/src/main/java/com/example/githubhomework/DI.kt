@@ -17,7 +17,7 @@ import org.koin.dsl.module
 
 val myModule = module {
     //repositories
-    single { IssueRepository(get(), get()) }
+    single { IssueRepository(get(), get(), get()) }
     single { RepositoryRepository(get()) }
     single { UserRepository(get()) }
 
