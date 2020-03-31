@@ -15,7 +15,7 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.githubhomework.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_sign_in" />
 
     <fragment
         android:id="@+id/navigation_notifications"

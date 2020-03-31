@@ -10,8 +10,10 @@ import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.example.githubhomework.tools.Identity.IdentityManager
 import com.example.githubhomework.ui.home.RecycleViewObserver
 import com.example.githubhomework.ui.home.SearchObserver
+import com.example.githubhomework.ui.signin.SignInViewModel
 import com.example.githubhomework.ui.repository.IssueObserver
 import com.example.githubhomework.ui.repository.LabelObserver
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
@@ -23,8 +25,8 @@ val myModule = module {
 
     //tools
     single { HttpClient(get()) }
-    single { BasicInterceptor(get()) }
-    single { IdentityManager() }
+    single { BasicInterceptor() }
+    single { IdentityManager(get(), get()) }
 
     //api
     factory { ApiGetSingleRequest(get()) }
@@ -36,5 +38,8 @@ val myModule = module {
 
     //repository screen
     single { LabelObserver() }
-    single {IssueObserver() }
+    single { IssueObserver() }
+
+    //view models
+    viewModel { SignInViewModel(get()) }
 }
