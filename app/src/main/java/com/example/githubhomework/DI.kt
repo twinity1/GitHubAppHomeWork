@@ -1,8 +1,8 @@
 package com.example.githubhomework
 
-import com.example.githubhomework.repositories.IssueRepository
-import com.example.githubhomework.repositories.RepositoryRepository
-import com.example.githubhomework.repositories.UserRepository
+import com.example.githubhomework.persistence.repositories.IssueRepository
+import com.example.githubhomework.persistence.repositories.RepositoryRepository
+import com.example.githubhomework.persistence.repositories.UserRepository
 import com.example.githubhomework.tools.ApiGetMultipleRequest
 import com.example.githubhomework.tools.ApiGetSingleRequest
 import com.example.githubhomework.tools.HttpClient.BasicInterceptor
@@ -26,7 +26,7 @@ val myModule = module {
     //tools
     single { HttpClient(get()) }
     single { BasicInterceptor() }
-    single { IdentityManager(get(), get()) }
+    single(null, true) { IdentityManager(get(), get(), get()) }
 
     //api
     factory { ApiGetSingleRequest(get()) }

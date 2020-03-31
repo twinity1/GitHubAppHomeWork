@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.example.githubhomework.repositories.UserRepository
+import com.example.githubhomework.persistence.repositories.UserRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 
 class SearchObserver(private val userRepository: UserRepository) {

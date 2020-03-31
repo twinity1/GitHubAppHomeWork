@@ -1,7 +1,7 @@
-package com.example.githubhomework.entities.helpers
+package com.example.githubhomework.persistence.entities.helpers
 
-import com.example.githubhomework.entities.Issue
-import com.example.githubhomework.entities.Label
+import com.example.githubhomework.persistence.entities.Issue
+import com.example.githubhomework.persistence.entities.Label
 
 class LabelExtractor {
     companion object {

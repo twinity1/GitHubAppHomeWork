@@ -1,7 +1,6 @@
-package com.example.githubhomework.entities
+package com.example.githubhomework.persistence.entities
 
 import com.google.gson.annotations.SerializedName
-import org.jetbrains.annotations.PropertyKey
 
 data class User(
     var login: String,

@@ -44,6 +44,16 @@ android {
 }
 
 dependencies {
+    def room_version = "2.2.5"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-guava:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+
+
     implementation "org.koin:koin-androidx-scope:2.1.5"
     implementation "org.koin:koin-androidx-viewmodel:2.1.5"
     implementation "org.koin:koin-androidx-fragment:2.1.5"
@@ -56,8 +66,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     kapt 'androidx.databinding:databinding-compiler:3.6.1'
-    api 'com.google.dagger:dagger:2.26'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.26'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'

@@ -1,6 +1,6 @@
-package com.example.githubhomework.repositories
+package com.example.githubhomework.persistence.repositories
 
-import com.example.githubhomework.entities.Repository
+import com.example.githubhomework.persistence.entities.Repository
 import com.example.githubhomework.tools.ApiGetMultipleRequest
 
 class RepositoryRepository(private val multipleRequest: ApiGetMultipleRequest) {

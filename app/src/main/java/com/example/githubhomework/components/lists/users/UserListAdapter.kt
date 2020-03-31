@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeListBinding
-import com.example.githubhomework.entities.User
+import com.example.githubhomework.persistence.entities.User
 
 class UserListAdapter(private val users: List<User>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater

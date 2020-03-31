@@ -1,6 +1,6 @@
-package com.example.githubhomework.repositories
+package com.example.githubhomework.persistence.repositories
 
-import com.example.githubhomework.entities.User
+import com.example.githubhomework.persistence.entities.User
 import com.example.githubhomework.tools.ApiGetMultipleRequest
 import okhttp3.*
 import java.net.URLEncoder

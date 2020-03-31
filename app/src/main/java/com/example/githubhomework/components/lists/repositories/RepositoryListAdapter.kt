@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
-import com.example.githubhomework.databinding.FragmentUserBinding
 import com.example.githubhomework.databinding.FragmentUserListBinding
-import com.example.githubhomework.entities.Repository
+import com.example.githubhomework.persistence.entities.Repository
 
 class RepositoryListAdapter(private val repositories: List<Repository>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater

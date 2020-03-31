@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.UserActivity
 import com.example.githubhomework.components.lists.users.UserListAdapter
-import com.example.githubhomework.entities.User
+import com.example.githubhomework.persistence.entities.User
 
 
 class RecycleViewObserver {

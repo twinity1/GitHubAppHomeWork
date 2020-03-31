@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.IssueActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.components.lists.issues.IssuesListAdapter
-import com.example.githubhomework.entities.Issue
+import com.example.githubhomework.persistence.entities.Issue
 import kotlinx.android.synthetic.main.fragment_repository.*
 
 class IssueObserver {

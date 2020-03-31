@@ -3,7 +3,7 @@ package com.example.githubhomework.ui.repository
 import android.graphics.Color
 import androidx.lifecycle.Observer
 import com.example.githubhomework.R
-import com.example.githubhomework.entities.Label
+import com.example.githubhomework.persistence.entities.Label
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_repository.*
 

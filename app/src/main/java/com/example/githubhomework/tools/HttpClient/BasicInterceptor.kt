@@ -1,6 +1,5 @@
 package com.example.githubhomework.tools.HttpClient
 
-import com.example.githubhomework.entities.Identity
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Request

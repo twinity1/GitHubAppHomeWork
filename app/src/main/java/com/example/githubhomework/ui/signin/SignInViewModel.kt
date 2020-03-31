@@ -2,7 +2,7 @@ package com.example.githubhomework.ui.signin
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.githubhomework.entities.Identity
+import com.example.githubhomework.persistence.entities.Identity
 import com.example.githubhomework.tools.Identity.IdentityManager
 import java.lang.Exception
 

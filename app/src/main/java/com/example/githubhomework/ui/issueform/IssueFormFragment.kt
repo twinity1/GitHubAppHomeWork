@@ -9,8 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.IssueFormFragmentBinding
-import com.example.githubhomework.entities.Issue
-import com.example.githubhomework.repositories.IssueRepository
+import com.example.githubhomework.persistence.entities.Issue
+import com.example.githubhomework.persistence.repositories.IssueRepository
 import org.koin.android.ext.android.inject
 
 class IssueFormFragment : Fragment() {

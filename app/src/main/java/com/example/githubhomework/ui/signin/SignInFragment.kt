@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentSignInBinding
-import com.example.githubhomework.entities.Identity
+import com.example.githubhomework.persistence.entities.Identity
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

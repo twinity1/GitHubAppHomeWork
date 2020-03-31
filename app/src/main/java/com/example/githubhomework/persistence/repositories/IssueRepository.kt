@@ -1,7 +1,7 @@
-package com.example.githubhomework.repositories
+package com.example.githubhomework.persistence.repositories
 
 import android.util.Log
-import com.example.githubhomework.entities.Issue
+import com.example.githubhomework.persistence.entities.Issue
 import com.example.githubhomework.tools.ApiGetMultipleRequest
 import com.example.githubhomework.tools.ApiGetSingleRequest
 import com.example.githubhomework.tools.HttpClient.HttpClient

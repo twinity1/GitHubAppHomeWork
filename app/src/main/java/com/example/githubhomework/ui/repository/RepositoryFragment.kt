@@ -9,12 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.example.githubhomework.IssueFormActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.components.ui.backdrop.findBehavior
 import com.example.githubhomework.databinding.FragmentRepositoryBinding
-import com.example.githubhomework.repositories.IssueRepository
+import com.example.githubhomework.persistence.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import com.example.githubhomework.tools.Identity.IdentityManager
 import kotlinx.android.synthetic.main.fragment_repository.*

@@ -15,7 +15,7 @@ import com.example.githubhomework.R
 import com.example.githubhomework.RepositoryActivity
 import com.example.githubhomework.components.lists.repositories.RepositoryListAdapter
 import com.example.githubhomework.databinding.FragmentUserBinding
-import com.example.githubhomework.repositories.RepositoryRepository
+import com.example.githubhomework.persistence.repositories.RepositoryRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import kotlinx.android.synthetic.main.fragment_user.*
 import org.koin.android.ext.android.inject

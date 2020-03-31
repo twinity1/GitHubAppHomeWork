@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentIssuesListBinding
-import com.example.githubhomework.entities.Issue
+import com.example.githubhomework.persistence.entities.Issue
 
 class IssuesListAdapter(private val issues: List<Issue>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater

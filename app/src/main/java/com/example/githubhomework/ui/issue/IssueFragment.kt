@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentIssueBinding
-import com.example.githubhomework.repositories.IssueRepository
+import com.example.githubhomework.persistence.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import io.noties.markwon.Markwon
 import kotlinx.android.synthetic.main.fragment_issue.*

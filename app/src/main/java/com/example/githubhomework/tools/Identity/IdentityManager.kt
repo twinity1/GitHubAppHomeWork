@@ -1,8 +1,10 @@
 package com.example.githubhomework.tools.Identity
 
+import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
-import com.example.githubhomework.entities.Identity
+import com.example.githubhomework.persistence.AppDatabase
+import com.example.githubhomework.persistence.entities.Identity
 import com.example.githubhomework.tools.HttpClient.BasicInterceptor
 import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.google.gson.JsonParser
@@ -12,8 +14,14 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class IdentityManager(private val httpClient: HttpClient, private val basicInterceptor: BasicInterceptor) {
+class IdentityManager(private val httpClient: HttpClient, private val basicInterceptor: BasicInterceptor, private val appDatabase: AppDatabase) {
     var identity: Identity? = null
+
+    init {
+        AsyncTask.execute {
+            identity = appDatabase.identityDao().getIdentity()
+        }
+    }
 
     class BadCredentials(message: String) : Exception(message)
     fun signIn(username: String, password: String, completionHandler: (Result<Identity>) -> Unit) {
@@ -35,16 +43,21 @@ class IdentityManager(private val httpClient: HttpClient, private val basicInter
             }
 
             override fun onResponse(call: Call, response: Response) {
-                handler.post {
-                    if (response.code() == 200) {
-                        val newIdentity = Identity(username, password)
-                        identity = newIdentity
-                        completionHandler(Result.success(newIdentity))
-                    } else {
-                        val responseString = response.body()!!.string()
+                if (response.code() == 200) {
+                    val newIdentity = appDatabase.identityDao().getIdentity() ?: Identity(null, username, password)
+                    appDatabase.identityDao().save(newIdentity)
+                    identity = newIdentity
 
-                        if (response.code() == 401) {
-                            val message = JsonParser().parse(responseString).asJsonObject.get("message").asString
+                    handler.post {
+                        completionHandler(Result.success(newIdentity))
+                    }
+                } else {
+                    val responseString = response.body()!!.string()
+
+                    if (response.code() == 401) {
+                        val message = JsonParser().parse(responseString).asJsonObject.get("message").asString
+
+                        handler.post {
                             completionHandler(Result.failure(BadCredentials(message)))
                         }
                     }

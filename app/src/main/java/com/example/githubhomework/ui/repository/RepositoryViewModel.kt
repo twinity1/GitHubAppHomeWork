@@ -1,9 +1,9 @@
 package com.example.githubhomework.ui.repository
 
 import androidx.lifecycle.*
-import com.example.githubhomework.entities.Issue
-import com.example.githubhomework.entities.Label
-import com.example.githubhomework.entities.helpers.LabelExtractor
+import com.example.githubhomework.persistence.entities.Issue
+import com.example.githubhomework.persistence.entities.Label
+import com.example.githubhomework.persistence.entities.helpers.LabelExtractor
 
 class RepositoryViewModel : ViewModel() {
     var onNewIssueShow = {}

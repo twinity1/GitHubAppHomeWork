@@ -1,4 +1,4 @@
-package com.example.githubhomework.entities
+package com.example.githubhomework.persistence.entities
 
 data class Label(
     val id: Int,
