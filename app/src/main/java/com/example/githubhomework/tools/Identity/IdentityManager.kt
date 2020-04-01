@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.githubhomework.persistence.AppDatabase
 import com.example.githubhomework.persistence.entities.Identity
-import com.example.githubhomework.tools.HttpClient.BasicInterceptor
+import com.example.githubhomework.tools.HttpClient.BasicCredentialsInterceptor
 import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.google.gson.JsonParser
 import okhttp3.Call
@@ -14,19 +14,23 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class IdentityManager(private val httpClient: HttpClient, private val basicInterceptor: BasicInterceptor, private val appDatabase: AppDatabase) {
+class IdentityManager(private val httpClient: HttpClient, private val basicCredentialsInterceptor: BasicCredentialsInterceptor, private val appDatabase: AppDatabase) {
     var identity: Identity? = null
 
     init {
         AsyncTask.execute {
             identity = appDatabase.identityDao().getIdentity()
+            if (identity != null) {
+                basicCredentialsInterceptor.username = identity!!.username
+                basicCredentialsInterceptor.password = identity!!.password
+            }
         }
     }
 
     class BadCredentials(message: String) : Exception(message)
     fun signIn(username: String, password: String, completionHandler: (Result<Identity>) -> Unit) {
-        basicInterceptor.username = username
-        basicInterceptor.password = password
+        basicCredentialsInterceptor.username = username
+        basicCredentialsInterceptor.password = password
 
         val handler = Handler(Looper.getMainLooper())
 
@@ -36,8 +40,8 @@ class IdentityManager(private val httpClient: HttpClient, private val basicInter
             override fun onFailure(call: Call, e: IOException) {
                 handler.post {
                     identity = null
-                    basicInterceptor.username = null
-                    basicInterceptor.password = null
+                    basicCredentialsInterceptor.username = null
+                    basicCredentialsInterceptor.password = null
                     completionHandler(Result.failure(e))
                 }
             }
@@ -64,5 +68,16 @@ class IdentityManager(private val httpClient: HttpClient, private val basicInter
                 }
             }
         })
+    }
+
+    fun signOut(completionHandler: () -> Unit) {
+        AsyncTask.execute {
+            basicCredentialsInterceptor.username = null
+            basicCredentialsInterceptor.password = null
+            appDatabase.identityDao().delete();
+            identity = null
+
+            completionHandler()
+        }
     }
 }

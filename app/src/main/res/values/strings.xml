@@ -29,4 +29,5 @@
     <string name="signIn">Sign in</string>
     <string name="title">Title</string>
     <string name="content">Content</string>
+    <string name="sign_out">Sign out</string>
 </resources>

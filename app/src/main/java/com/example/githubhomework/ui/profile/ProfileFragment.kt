@@ -22,8 +22,6 @@ class ProfileFragment : Fragment() {
     ): View? {
         redraw()
 
-        Log.e("xx", "xx")
-
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
@@ -40,7 +38,11 @@ class ProfileFragment : Fragment() {
 
             manager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit()
         } else {
-            val fragment = manager.fragmentFactory.instantiate(ClassLoader.getSystemClassLoader(), ProfileContentFragment::class.getFullName())
+            val fragment = manager.fragmentFactory.instantiate(ClassLoader.getSystemClassLoader(), ProfileContentFragment::class.getFullName()) as ProfileContentFragment
+
+            fragment.onSignOut = {
+                redraw()
+            }
 
             manager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit()
         }

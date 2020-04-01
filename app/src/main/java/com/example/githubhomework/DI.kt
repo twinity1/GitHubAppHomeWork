@@ -5,11 +5,12 @@ import com.example.githubhomework.persistence.repositories.RepositoryRepository
 import com.example.githubhomework.persistence.repositories.UserRepository
 import com.example.githubhomework.tools.ApiGetMultipleRequest
 import com.example.githubhomework.tools.ApiGetSingleRequest
-import com.example.githubhomework.tools.HttpClient.BasicInterceptor
+import com.example.githubhomework.tools.HttpClient.BasicCredentialsInterceptor
 import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.example.githubhomework.tools.Identity.IdentityManager
 import com.example.githubhomework.ui.home.RecycleViewObserver
 import com.example.githubhomework.ui.home.SearchObserver
+import com.example.githubhomework.ui.profilecontent.ProfileContentViewModel
 import com.example.githubhomework.ui.signin.SignInViewModel
 import com.example.githubhomework.ui.repository.IssueObserver
 import com.example.githubhomework.ui.repository.LabelObserver
@@ -25,7 +26,7 @@ val myModule = module {
 
     //tools
     single { HttpClient(get()) }
-    single { BasicInterceptor() }
+    single { BasicCredentialsInterceptor() }
     single(null, true) { IdentityManager(get(), get(), get()) }
 
     //api
@@ -42,4 +43,5 @@ val myModule = module {
 
     //view models
     viewModel { SignInViewModel(get()) }
+    viewModel { ProfileContentViewModel(get()) }
 }

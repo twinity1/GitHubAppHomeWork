@@ -6,7 +6,7 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class BasicInterceptor: Interceptor
+class BasicCredentialsInterceptor: Interceptor
 {
         var username: String? = null
         var password: String? = null

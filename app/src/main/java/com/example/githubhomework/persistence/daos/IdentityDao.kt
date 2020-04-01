@@ -14,6 +14,9 @@ interface IdentityDao {
     @Update
     fun update(identity: Identity)
 
+    @Query("DELETE FROM Identity")
+    fun delete()
+
     @Transaction
     fun save(identity: Identity) {
         if (identity.uid == null) {
