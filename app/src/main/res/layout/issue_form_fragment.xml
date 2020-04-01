@@ -62,7 +62,7 @@
 
         <Button
             android:layout_marginTop="@dimen/big_gap"
-            android:text="@{viewModel.submitBtnTitle}"
+            android:text="@string/submit"
             android:onClick="@{() -> viewModel.onIssueSubmit()}"
             android:id="@+id/submitBtn"
             android:layout_width="match_parent"

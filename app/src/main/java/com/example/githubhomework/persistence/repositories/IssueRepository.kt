@@ -24,6 +24,7 @@ class IssueRepository(private val multipleRequest: ApiGetMultipleRequest, privat
         singleRequest.getAsObject(issueUrl, Issue::class.java, completionHandler)
     }
 
+    private class UnknownErrorException : Exception()
     private data class IssueCreateDto(val title: String, val body: String)
     fun saveIssue(repositoryFullName: String, issue: Issue, completionHandler: (Result<Issue>) -> Unit) {
         val jsonBody = Gson().toJson(IssueCreateDto(title = issue.title, body = issue.body))
@@ -51,6 +52,10 @@ class IssueRepository(private val multipleRequest: ApiGetMultipleRequest, privat
 
                     handler.post {
                         completionHandler(Result.success(parseResult))
+                    }
+                } else {
+                    handler.post {
+                        completionHandler(Result.failure(UnknownErrorException()))
                     }
                 }
             }

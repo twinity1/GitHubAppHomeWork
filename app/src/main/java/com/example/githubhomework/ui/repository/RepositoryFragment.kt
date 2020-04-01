@@ -73,11 +73,6 @@ class RepositoryFragment : Fragment() {
 
         toolbar.title = repositoryFullName
 
-        val isOwner = identityManager.identity?.isOwnerOf(repositoryFullName) ?: false
-        if (!isOwner) {
-            addIssue.visibility = View.GONE;
-        }
-
         refresh()
     }
 
