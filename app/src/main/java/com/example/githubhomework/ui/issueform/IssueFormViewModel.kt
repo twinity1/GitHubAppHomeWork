@@ -12,4 +12,9 @@ class IssueFormViewModel : ViewModel() {
     fun onIssueSubmit() {
         onSubmit()
     }
+
+    fun isValid(): Boolean
+    {
+        return title.value != null && content.value != null
+    }
 }

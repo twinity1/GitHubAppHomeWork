@@ -9,8 +9,18 @@ class IssueListViewModel(val entity: Issue) : ViewModel() {
 
 
     var onIssueShow = {}
+    var onIssueEdit = {}
+    var onIssueDelete = {}
 
-    fun onCardSelect() {
+    fun cardSelect() {
         onIssueShow()
+    }
+
+    fun delete() {
+        onIssueDelete()
+    }
+
+    fun edit() {
+        onIssueEdit()
     }
 }

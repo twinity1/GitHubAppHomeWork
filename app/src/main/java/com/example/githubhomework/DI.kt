@@ -10,6 +10,7 @@ import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.example.githubhomework.tools.Identity.IdentityManager
 import com.example.githubhomework.ui.home.RecycleViewObserver
 import com.example.githubhomework.ui.home.SearchObserver
+import com.example.githubhomework.ui.issueform.IssueFormSubmit
 import com.example.githubhomework.ui.issueform.IssueFormViewModel
 import com.example.githubhomework.ui.profilecontent.ProfileContentViewModel
 import com.example.githubhomework.ui.signin.SignInViewModel
@@ -37,6 +38,9 @@ val myModule = module {
     //home screen
     single { SearchObserver(get()) }
     single { RecycleViewObserver() }
+
+    //issue form screen
+    single { IssueFormSubmit(get()) }
 
     //repository screen
     single { LabelObserver() }

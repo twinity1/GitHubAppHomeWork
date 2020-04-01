@@ -17,7 +17,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class IssueFormFragment : Fragment() {
-    val issueRepository: IssueRepository by inject()
+    val issueFormSubmit: IssueFormSubmit by inject()
 
     val viewModel: IssueFormViewModel by viewModel()
     private lateinit var binding: IssueFormFragmentBinding
@@ -44,20 +44,7 @@ class IssueFormFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title = if (issue == null) requireActivity().resources.getString(R.string.new_issue_title) else requireActivity().resources.getString(R.string.edit_issue_title)
 
         viewModel.onSubmit = {
-            val issue = issue ?: Issue(title = "", body = "")
-            issue.title = viewModel.title.value!!
-            issue.body = viewModel.content.value!!
-
-            issueRepository.saveIssue(repositoryFullName, issue) {
-                it.fold(
-                    onSuccess = {
-                        onFinish()
-                    },
-                    onFailure = {
-                        Toast.makeText(requireContext(), ErrorMessageHandler().getStringByException(it, resources), Toast.LENGTH_LONG).show()
-                    }
-                )
-            }
+            issueFormSubmit.submit(this)
         }
     }
 }

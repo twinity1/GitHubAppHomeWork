@@ -10,7 +10,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:onClick="@{() -> viewModel.onCardSelect()}"
+        android:onClick="@{() -> viewModel.cardSelect()}"
         android:layout_height="60dp" android:layout_width="match_parent">
 
 
@@ -35,7 +35,33 @@
             app:layout_constraintStart_toEndOf="@+id/issueNumber"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/editIssueBtn"
+            />
+
+        <ImageButton
+            android:onClick="@{() -> viewModel.edit()}"
+            android:contentDescription="@string/edit_issue_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/issueTitle"
+            app:layout_constraintEnd_toStartOf="@id/deleteIssueBtn"
+            android:id="@+id/editIssueBtn"
+            android:src="@drawable/baseline_create_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <ImageButton
+            android:onClick="@{() -> viewModel.delete()}"
+            android:contentDescription="@string/delete_issue_desc"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/issueTitle"
             app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/deleteIssueBtn"
+            android:src="@drawable/baseline_delete_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

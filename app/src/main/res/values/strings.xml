@@ -14,7 +14,9 @@
     <string name="network_error">You need the internet connection for this action.</string>
     <string name="username_required">Username is required</string>
     <string name="password_required">Password is required</string>
-    
+    <string name="title_required">Title is required</string>
+    <string name="content_required">Content is required</string>
+
     <string name="new_issue_title">New issue</string>
     <string name="edit_issue_title">Edit issue</string>
 
@@ -26,4 +28,6 @@
     <string name="content">Content</string>
     <string name="sign_out">Sign out</string>
     <string name="submit">Submit</string>
+    <string name="edit_issue_desc">Edit issue</string>
+    <string name="delete_issue_desc">Delete issue</string>
 </resources>
