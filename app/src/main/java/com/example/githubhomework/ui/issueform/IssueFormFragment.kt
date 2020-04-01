@@ -15,7 +15,6 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class IssueFormFragment : Fragment() {
-
     val issueRepository: IssueRepository by inject()
 
     val viewModel: IssueFormViewModel by viewModel()
@@ -24,6 +23,7 @@ class IssueFormFragment : Fragment() {
     lateinit var repositoryFullName: String
     var issue: Issue? = null
 
+    var onFinish = {}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +45,7 @@ class IssueFormFragment : Fragment() {
             issue.body = viewModel.content
 
             issueRepository.saveIssue(repositoryFullName, issue) {
-
+                onFinish()
             }
         }
     }

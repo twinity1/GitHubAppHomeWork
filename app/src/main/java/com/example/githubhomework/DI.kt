@@ -3,8 +3,8 @@ package com.example.githubhomework
 import com.example.githubhomework.persistence.repositories.IssueRepository
 import com.example.githubhomework.persistence.repositories.RepositoryRepository
 import com.example.githubhomework.persistence.repositories.UserRepository
-import com.example.githubhomework.tools.ApiGetMultipleRequest
-import com.example.githubhomework.tools.ApiGetSingleRequest
+import com.example.githubhomework.tools.api.ApiGetMultipleRequest
+import com.example.githubhomework.tools.api.ApiGetSingleRequest
 import com.example.githubhomework.tools.HttpClient.BasicCredentialsInterceptor
 import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.example.githubhomework.tools.Identity.IdentityManager

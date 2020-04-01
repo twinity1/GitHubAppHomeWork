@@ -1,5 +1,6 @@
 package com.example.githubhomework
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.githubhomework.databinding.ActivityRepositoryBinding
@@ -13,11 +14,22 @@ class RepositoryActivity : AppCompatActivity() {
         val REPOSITORY_FULLNAME_URL = "repository_full_name"
     }
 
+    private lateinit var repositoryFragment: RepositoryFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_repository)
 
-        (fragmentRepository as RepositoryFragment).repositoryFullName = intent.getStringExtra(REPOSITORY_FULLNAME_URL)!!
+        repositoryFragment = fragmentRepository as RepositoryFragment
+        repositoryFragment.repositoryFullName = intent.getStringExtra(REPOSITORY_FULLNAME_URL)!!
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == IssueFormActivity.SUCCESS) {
+            repositoryFragment.refresh()
+        }
     }
 }

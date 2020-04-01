@@ -1,4 +1,4 @@
-package com.example.githubhomework.tools
+package com.example.githubhomework.tools.api
 
 import android.os.Handler
 import android.os.Looper
@@ -55,7 +55,11 @@ class ApiGetMultipleRequest(private val httpClient: HttpClient) {
                     uiHandler.post {
                         val message = JsonParser().parse(body).asJsonObject["message"].asString
 
-                        completionHandler(Result.failure(ApiGetMultipleForbiddenException(message)))
+                        completionHandler(Result.failure(
+                            ApiGetMultipleForbiddenException(
+                                message
+                            )
+                        ))
                     }
                 }
             }

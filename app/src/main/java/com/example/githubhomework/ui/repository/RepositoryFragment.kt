@@ -64,7 +64,7 @@ class RepositoryFragment : Fragment() {
         viewModel.onNewIssueShow = {
             val intent = Intent(requireActivity(), IssueFormActivity::class.java)
             intent.putExtra(IssueFormActivity.FULL_REPOSITORY_NAME, repositoryFullName)
-            startActivity(intent)
+            startActivityForResult(intent, IssueFormActivity.SUCCESS)
         }
     }
 
@@ -78,17 +78,21 @@ class RepositoryFragment : Fragment() {
             addIssue.visibility = View.GONE;
         }
 
+        refresh()
+    }
+
+    fun refresh() {
         issueRepository.findAll(repositoryFullName) {
-           it.fold(
-               onSuccess = {
-                   viewModel.issueData = it
-               },
-               onFailure = {
+            it.fold(
+                onSuccess = {
+                    viewModel.issueData = it
+                },
+                onFailure = {
                     Toast.makeText(requireActivity(), ErrorMessageHandler().getStringByException(it, requireActivity().resources), Toast.LENGTH_LONG).show()
 
-                   activity?.finish()
-               }
-           )
-       }
+                    activity?.finish()
+                }
+            )
+        }
     }
 }

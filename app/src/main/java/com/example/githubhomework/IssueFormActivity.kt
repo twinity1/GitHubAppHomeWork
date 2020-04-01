@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.issue_form_activity.*
 class IssueFormActivity : AppCompatActivity() {
     companion object {
         val FULL_REPOSITORY_NAME = "full_repository_name"
+        val SUCCESS = 100
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,11 @@ class IssueFormActivity : AppCompatActivity() {
 
         val repoName = intent.getStringExtra(FULL_REPOSITORY_NAME)!!
 
-        (issueFragment as IssueFormFragment).repositoryFullName = repoName
+        val issueFormFragment = issueFragment as IssueFormFragment
+        issueFormFragment.repositoryFullName = repoName
+        issueFormFragment.onFinish = {
+            setResult(SUCCESS)
+            finish()
+        }
     }
 }

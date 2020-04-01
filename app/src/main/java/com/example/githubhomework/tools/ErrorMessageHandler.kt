@@ -3,6 +3,8 @@ package com.example.githubhomework.tools
 import android.content.res.Resources
 import com.example.githubhomework.R
 import com.example.githubhomework.tools.Identity.IdentityManager
+import com.example.githubhomework.tools.api.ApiGetMultipleRequest
+import com.example.githubhomework.tools.api.ApiGetSingleRequest
 import java.net.UnknownHostException
 
 class ErrorMessageHandler {

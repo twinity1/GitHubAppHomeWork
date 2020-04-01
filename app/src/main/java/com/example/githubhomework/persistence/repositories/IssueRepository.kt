@@ -1,10 +1,12 @@
 package com.example.githubhomework.persistence.repositories
 
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import com.example.githubhomework.persistence.entities.Issue
-import com.example.githubhomework.tools.ApiGetMultipleRequest
-import com.example.githubhomework.tools.ApiGetSingleRequest
+import com.example.githubhomework.tools.api.ApiGetMultipleRequest
+import com.example.githubhomework.tools.api.ApiGetSingleRequest
 import com.example.githubhomework.tools.HttpClient.HttpClient
+import com.example.githubhomework.tools.api.parsers.SingleResultParser
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -33,14 +35,23 @@ class IssueRepository(private val multipleRequest: ApiGetMultipleRequest, privat
             .post(body)
             .build()
 
+
+        val handler = Handler(Looper.getMainLooper())
+
         httpClient.client.newCall(r).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                completionHandler(Result.failure(e))
+                handler.post {
+                    completionHandler(Result.failure(e))
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.code() == 201) {
-                    Log.e("x", "x")
+                    val parseResult = SingleResultParser().parseJsonResult(response.body()!!.string(), Issue::class.java)
+
+                    handler.post {
+                        completionHandler(Result.success(parseResult))
+                    }
                 }
             }
         })

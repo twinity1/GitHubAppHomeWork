@@ -1,8 +1,9 @@
-package com.example.githubhomework.tools
+package com.example.githubhomework.tools.api
 
 import android.os.Handler
 import android.os.Looper
 import com.example.githubhomework.tools.HttpClient.HttpClient
+import com.example.githubhomework.tools.api.parsers.SingleResultParser
 import com.google.gson.*
 import okhttp3.*
 import java.io.IOException
@@ -33,7 +34,7 @@ class ApiGetSingleRequest(private val httpClient: HttpClient) {
 
                 if (response.code() == 200) {
                     try {
-                        val parseResult = parseJsonResult(body!!, classType)
+                        val parseResult = SingleResultParser().parseJsonResult(body!!, classType)
 
                         uiHandler.post {
                             completionHandler(Result.success(parseResult))
@@ -49,7 +50,11 @@ class ApiGetSingleRequest(private val httpClient: HttpClient) {
                     val message = JsonParser().parse(body).asJsonObject["message"].asString
 
                     uiHandler.post {
-                        completionHandler(Result.failure(ApiGetSingleForbiddenException(message)))
+                        completionHandler(Result.failure(
+                            ApiGetSingleForbiddenException(
+                                message
+                            )
+                        ))
                     }
                 }
             }
@@ -57,11 +62,5 @@ class ApiGetSingleRequest(private val httpClient: HttpClient) {
     }
 
 
-    private fun <T> parseJsonResult(content: String, classType: Class<T>): T {
-        val jsonElement = JsonParser().parse(content)
 
-        val result = gson.fromJson(jsonElement, classType)
-
-        return result
-    }
 }
