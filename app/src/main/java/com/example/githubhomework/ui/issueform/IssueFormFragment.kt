@@ -12,13 +12,13 @@ import com.example.githubhomework.databinding.IssueFormFragmentBinding
 import com.example.githubhomework.persistence.entities.Issue
 import com.example.githubhomework.persistence.repositories.IssueRepository
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class IssueFormFragment : Fragment() {
 
-    val issueRepository: IssueRepository by inject();
+    val issueRepository: IssueRepository by inject()
 
-
-    private lateinit var viewModel: IssueFormViewModel
+    val viewModel: IssueFormViewModel by viewModel()
     private lateinit var binding: IssueFormFragmentBinding
 
     lateinit var repositoryFullName: String
@@ -29,10 +29,7 @@ class IssueFormFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this).get(IssueFormViewModel::class.java)
-
         binding = DataBindingUtil.inflate(inflater, R.layout.issue_form_fragment, container, false)
-
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
