@@ -13,6 +13,8 @@ class IssuesListAdapter(private val issues: List<Issue>) : RecyclerView.Adapter<
     private lateinit var layoutInflater: LayoutInflater
 
     var onIssueShow: ((IssueListViewModel) -> Unit)? = null
+    var onIssueEdit: ((IssueListViewModel) -> Unit)? = null
+    var onIssueDelete: ((IssueListViewModel) -> Unit)? = null
 
     private class ViewHolder(itemView: View, var binding: FragmentIssuesListBinding) : RecyclerView.ViewHolder(itemView)
 
@@ -40,6 +42,14 @@ class IssuesListAdapter(private val issues: List<Issue>) : RecyclerView.Adapter<
 
         viewModel.onIssueShow = {
             onIssueShow?.invoke(viewModel)
+        }
+
+        viewModel.onIssueEdit = {
+            onIssueEdit?.invoke(viewModel)
+        }
+
+        viewModel.onIssueDelete = {
+            onIssueDelete?.invoke(viewModel)
         }
 
         holder.binding.viewModel = viewModel

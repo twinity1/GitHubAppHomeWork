@@ -14,15 +14,28 @@ class IssueFormSubmit(private val issueRepository: IssueRepository) {
             issue.title =  owner.viewModel.title.value!!
             issue.body = owner.viewModel.content.value!!
 
-            issueRepository.saveIssue(owner.repositoryFullName, issue) {
-                it.fold(
-                    onSuccess = {
-                        owner.onFinish()
-                    },
-                    onFailure = {
-                        Toast.makeText(owner.requireContext(), ErrorMessageHandler().getStringByException(it, owner.resources), Toast.LENGTH_LONG).show()
-                    }
-                )
+            if (owner.issue == null) {
+                issueRepository.createIssue(owner.repositoryFullName, issue) {
+                    it.fold(
+                        onSuccess = {
+                            owner.onFinish()
+                        },
+                        onFailure = {
+                            Toast.makeText(owner.requireContext(), ErrorMessageHandler().getStringByException(it, owner.resources), Toast.LENGTH_LONG).show()
+                        }
+                    )
+                }
+            } else {
+                issueRepository.updateIssue(owner.repositoryFullName, issue) {
+                    it.fold(
+                        onSuccess = {
+                            owner.onFinish()
+                        },
+                        onFailure = {
+                            Toast.makeText(owner.requireContext(), ErrorMessageHandler().getStringByException(it, owner.resources), Toast.LENGTH_LONG).show()
+                        }
+                    )
+                }
             }
         }
     }

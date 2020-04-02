@@ -16,9 +16,17 @@
     <string name="password_required">Password is required</string>
     <string name="title_required">Title is required</string>
     <string name="content_required">Content is required</string>
+    <string name="issue_not_found">Issue was not found.</string>
 
     <string name="new_issue_title">New issue</string>
     <string name="edit_issue_title">Edit issue</string>
+
+
+    <!-- Delete dialog -->
+    <string name="delete_dialog_title">Delete</string>
+    <string name="delete_dialog_message">Are you sure you want delete this item?</string>
+    <string name="delete_dialog_yes">Delete</string>
+    <string name="delete_dialog_no">Nope</string>
 
 
     <string name="username">Username</string>

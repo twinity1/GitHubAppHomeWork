@@ -17,6 +17,6 @@ data class Issue(
     var labels: List<Label> = listOf()
 )
 {
-    var numberWithHash = ""
+    val numberWithHash
         get() = "#" + number.toString()
 }
