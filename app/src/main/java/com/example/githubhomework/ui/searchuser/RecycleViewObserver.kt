@@ -1,4 +1,4 @@
-package com.example.githubhomework.ui.home
+package com.example.githubhomework.ui.searchuser
 
 import android.content.Intent
 import androidx.lifecycle.Observer
@@ -9,9 +9,9 @@ import com.example.githubhomework.persistence.entities.User
 
 
 class RecycleViewObserver {
-    fun create(owner: HomeFragment): Observer<List<User>> {
+    fun create(owner: SearchUserFragment): Observer<List<User>> {
         return Observer {
-            owner.binding.homeRecycleView.apply {
+            owner.binding.searchRecycleView.apply {
                 val userAdapter = UserListAdapter(it)
                 userAdapter.onShowUser = {
                     val intent = Intent(owner.activity, UserActivity::class.java)

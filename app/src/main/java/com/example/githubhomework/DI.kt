@@ -8,8 +8,8 @@ import com.example.githubhomework.tools.api.ApiGetSingleRequest
 import com.example.githubhomework.tools.HttpClient.BasicCredentialsInterceptor
 import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.example.githubhomework.tools.Identity.IdentityManager
-import com.example.githubhomework.ui.home.RecycleViewObserver
-import com.example.githubhomework.ui.home.SearchObserver
+import com.example.githubhomework.ui.searchuser.RecycleViewObserver
+import com.example.githubhomework.ui.searchuser.SearchObserver
 import com.example.githubhomework.ui.issueform.IssueFormSubmit
 import com.example.githubhomework.ui.issueform.IssueFormViewModel
 import com.example.githubhomework.ui.profilecontent.ProfileContentViewModel

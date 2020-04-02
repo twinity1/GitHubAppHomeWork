@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".SearchUserActivity">
 
+    <fragment
+        android:id="@+id/searchUserFragment"
+        android:name="com.example.githubhomework.ui.searchuser.SearchUserFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

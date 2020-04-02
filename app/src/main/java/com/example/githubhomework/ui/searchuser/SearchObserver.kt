@@ -1,4 +1,4 @@
-package com.example.githubhomework.ui.home
+package com.example.githubhomework.ui.searchuser
 
 import android.os.Handler
 import android.os.Looper
@@ -6,10 +6,11 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.githubhomework.persistence.repositories.UserRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
+import com.example.githubhomework.ui.searchuser.SearchUserFragment
 
 class SearchObserver(private val userRepository: UserRepository) {
 
-    fun create(owner: HomeFragment): Observer<String> {
+    fun create(owner: SearchUserFragment): Observer<String> {
         val handler = Handler(Looper.getMainLooper())
 
         return Observer {
@@ -20,7 +21,7 @@ class SearchObserver(private val userRepository: UserRepository) {
                     userRepository.findByName(it) {
                         it.fold(
                             onSuccess = {
-                                owner.homeViewModel.searchResult.value = it
+                                owner.viewModel.searchResult.value = it
                             },
 
                             onFailure = {
@@ -30,7 +31,7 @@ class SearchObserver(private val userRepository: UserRepository) {
                     }
                 }, 300)
             } else {
-                owner.homeViewModel.searchResult.value = listOf()
+                owner.viewModel.searchResult.value = listOf()
             }
         }
     }
