@@ -13,6 +13,7 @@ import com.example.githubhomework.ui.searchuser.SearchObserver
 import com.example.githubhomework.ui.issueform.IssueFormSubmit
 import com.example.githubhomework.ui.issueform.IssueFormViewModel
 import com.example.githubhomework.ui.profilecontent.ProfileContentViewModel
+import com.example.githubhomework.ui.recentrepositories.RecentRepositoriesViewModel
 import com.example.githubhomework.ui.signin.SignInViewModel
 import com.example.githubhomework.ui.repository.IssueObserver
 import com.example.githubhomework.ui.repository.LabelObserver
@@ -50,4 +51,5 @@ val myModule = module {
     viewModel { SignInViewModel(get()) }
     viewModel { IssueFormViewModel() }
     viewModel { ProfileContentViewModel(get()) }
+    viewModel { RecentRepositoriesViewModel() }
 }
