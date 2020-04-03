@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.githubhomework.IssueFormActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.components.ui.backdrop.findBehavior
@@ -16,7 +18,9 @@ import com.example.githubhomework.databinding.FragmentRepositoryBinding
 import com.example.githubhomework.persistence.repositories.IssueRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
 import com.example.githubhomework.tools.Identity.IdentityManager
+import com.example.githubhomework.tools.ui.addDivider
 import kotlinx.android.synthetic.main.fragment_repository.*
+import kotlinx.android.synthetic.main.fragment_search_user.*
 import ru.semper_viventem.backdrop.BackdropBehavior
 import org.koin.android.ext.android.inject
 
@@ -50,6 +54,8 @@ class RepositoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        repositoryIssueList.addDivider(requireContext())
 
         backdropBehavior = foregroundContainer.findBehavior()
 

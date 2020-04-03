@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
-import com.example.githubhomework.databinding.FragmentUserListBinding
+import com.example.githubhomework.databinding.RepositoryListBinding
 import com.example.githubhomework.persistence.entities.Repository
 
 class RepositoryListAdapter(private val repositories: List<Repository>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -14,14 +14,14 @@ class RepositoryListAdapter(private val repositories: List<Repository>) : Recycl
 
     var onShowRepository: ((RepositoryListViewModel) -> Unit)? = null
 
-    private class RepositoryViewHolder(itemView: View, var binding: FragmentUserListBinding) : RecyclerView.ViewHolder(itemView)
+    private class RepositoryViewHolder(itemView: View, var binding: RepositoryListBinding) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (::layoutInflater.isInitialized == false) {
             layoutInflater = LayoutInflater.from(parent.context)
         }
 
-        val binding = DataBindingUtil.inflate<FragmentUserListBinding>(layoutInflater, R.layout.fragment_user_list, parent, false);
+        val binding = DataBindingUtil.inflate<RepositoryListBinding>(layoutInflater, R.layout.repository_list, parent, false);
 
         return RepositoryViewHolder(
             binding.root,

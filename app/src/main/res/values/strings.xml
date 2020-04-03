@@ -3,10 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_activity_git_hub_user">GitHubUserActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="title_activity_user">User</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <!-- errors -->
@@ -38,5 +35,5 @@
     <string name="submit">Submit</string>
     <string name="edit_issue_desc">Edit issue</string>
     <string name="delete_issue_desc">Delete issue</string>
-    <string name="username_hint">Username...</string>
+    <string name="username_hint">Type username…</string>
 </resources>

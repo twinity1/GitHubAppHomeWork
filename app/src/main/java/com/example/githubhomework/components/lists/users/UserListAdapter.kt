@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
-import com.example.githubhomework.databinding.FragmentHomeListBinding
+import com.example.githubhomework.databinding.UserListBinding
 import com.example.githubhomework.persistence.entities.User
 
 class UserListAdapter(private val users: List<User>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -14,14 +14,14 @@ class UserListAdapter(private val users: List<User>) : RecyclerView.Adapter<Recy
 
     var onShowUser: ((UserListViewModel) -> Unit)? = null
 
-    class UserViewHolder(itemView: View, val binding: FragmentHomeListBinding) : RecyclerView.ViewHolder(itemView)
+    class UserViewHolder(itemView: View, val binding: UserListBinding) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (::layoutInflater.isInitialized == false) {
             layoutInflater = LayoutInflater.from(parent.context)
         }
 
-        val binding = DataBindingUtil.inflate<FragmentHomeListBinding>(layoutInflater, R.layout.fragment_home_list, parent, false)
+        val binding = DataBindingUtil.inflate<UserListBinding>(layoutInflater, R.layout.user_list, parent, false)
 
         return UserViewHolder(
             binding.root,

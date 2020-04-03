@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentSearchUserBinding
+import com.example.githubhomework.tools.ui.addDivider
+import kotlinx.android.synthetic.main.fragment_search_user.*
 import org.koin.android.ext.android.inject
 
 class SearchUserFragment : Fragment() {
@@ -34,6 +36,11 @@ class SearchUserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+//        requireActivity().actionBar?.setDisplayHomeAsUpEnabled(true)
+//        requireActivity().actionBar?.setIcon(R.drawable.baseline_add_white_18)
+        searchUserInput.requestFocus()
+        searchRecycleView.addDivider(requireContext())
 
         viewModel.searchText.observe(viewLifecycleOwner, searchObserver.create(this))
         viewModel.searchResult.observe(viewLifecycleOwner, recycleViewObserver.create(this))

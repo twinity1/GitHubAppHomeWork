@@ -17,6 +17,7 @@ import com.example.githubhomework.components.lists.repositories.RepositoryListAd
 import com.example.githubhomework.databinding.FragmentUserBinding
 import com.example.githubhomework.persistence.repositories.RepositoryRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
+import com.example.githubhomework.tools.ui.addDivider
 import kotlinx.android.synthetic.main.fragment_user.*
 import org.koin.android.ext.android.inject
 
@@ -61,6 +62,12 @@ class UserFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        gitHubUserList.addDivider(requireContext())
     }
 
     override fun onStart() {

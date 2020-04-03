@@ -18,10 +18,6 @@ class IssueObserver {
         return Observer {
             val adapter = IssuesListAdapter(it)
 
-            val divider = DividerItemDecoration(owner.requireContext(), DividerItemDecoration.VERTICAL)
-            divider.setDrawable(ContextCompat.getDrawable(owner.requireContext(), R.drawable.item_separator)!!)
-            owner.repositoryIssueList.addItemDecoration(divider)
-
             adapter.onIssueShow = {
                 val intent = Intent(owner.requireActivity(), IssueActivity::class.java)
 
