@@ -1,18 +1,27 @@
 package com.example.githubhomework.persistence.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity
 data class Repository(
-    val id: Int,
+    @PrimaryKey
+    var uid: Int? = null,
 
+    @ColumnInfo
     val name: String,
 
     @SerializedName("full_name")
+    @ColumnInfo
     val fullName: String,
 
     @SerializedName("issues_url")
+    @ColumnInfo
     val issuesUrl: String,
 
     @SerializedName("labels_url")
+    @ColumnInfo
     val labelsUrl: String
 )

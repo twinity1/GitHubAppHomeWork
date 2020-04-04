@@ -6,11 +6,11 @@ import com.example.githubhomework.persistence.entities.Label
 class LabelExtractor {
     companion object {
         fun extractFromIssueList(issues: List<Issue>): List<Label> {
-            val labelHash = HashMap<Int, Label>()
+            val labelHash = HashMap<String, Label>()
 
             issues.forEach {
                 it.labels.forEach {
-                    labelHash[it.id] = it
+                    labelHash[it.name] = it
                 }
             }
 

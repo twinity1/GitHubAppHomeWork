@@ -10,13 +10,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeBinding
+import com.example.githubhomework.tools.Identity.IdentityManager
+import com.example.githubhomework.ui.recentrepositories.RecentRepositoriesFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import org.koin.android.ext.android.inject
+import org.koin.ext.getFullName
 
 class HomeFragment : Fragment() {
 
-    lateinit var homeViewModel: HomeViewModel
-    lateinit var binding: FragmentHomeBinding
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var binding: FragmentHomeBinding
+    private val identityManager: IdentityManager by inject()
+
+    private lateinit var viewPager: ViewPager2
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,19 +37,42 @@ class HomeFragment : Fragment() {
         binding.viewModel = homeViewModel
         binding.lifecycleOwner = this
 
-        val viewPager = binding.root.findViewById<ViewPager2>(R.id.recentRepositoriesViewPager)
-        val tabs = binding.root.findViewById<TabLayout>(R.id.recentRepositoriesTab)
+        viewPager = binding.root.findViewById(R.id.recentRepositoriesViewPager)
+        tabLayout = binding.root.findViewById(R.id.recentRepositoriesTab)
 
-
-        val viewPagerAdapter = ViewPagerAdapter(requireActivity())
-        viewPager.adapter = viewPagerAdapter
-
-        TabLayoutMediator(tabs, viewPager, object : TabLayoutMediator.TabConfigurationStrategy {
-            override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-                tab.setText("xxx ${position}")
-            }
-        }).attach()
+        configureView()
 
         return binding.root
+    }
+
+    private fun configureView() {
+        val fragments = ArrayList<Fragment>()
+
+        val viewPagerAdapter = ViewPagerAdapter(fragments, requireActivity())
+        viewPager.adapter = viewPagerAdapter
+
+        if (identityManager.identity != null) {
+            val myRepositories = requireActivity().supportFragmentManager.fragmentFactory.instantiate(
+                ClassLoader.getSystemClassLoader(),
+                RecentRepositoriesFragment::class.getFullName()
+            )
+
+            fragments.add(myRepositories)
+        }
+
+        val notMyRepositories = requireActivity().supportFragmentManager.fragmentFactory.instantiate(
+            ClassLoader.getSystemClassLoader(),
+            RecentRepositoriesFragment::class.getFullName()
+        )
+        fragments.add(notMyRepositories)
+
+        TabLayoutMediator(
+            tabLayout,
+            viewPager,
+            object : TabLayoutMediator.TabConfigurationStrategy {
+                override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
+                    tab.setText("xxx ${position}")
+                }
+            }).attach()
     }
 }

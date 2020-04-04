@@ -10,7 +10,10 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "master").build()
+        val db = Room
+            .databaseBuilder(applicationContext, AppDatabase::class.java, "master")
+            .fallbackToDestructiveMigration()
+            .build()
         myModule.single { db }
 
         startKoin {

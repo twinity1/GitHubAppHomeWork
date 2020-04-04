@@ -17,7 +17,7 @@ class ApiGetMultipleRequest(private val httpClient: HttpClient) {
 
     class ApiGetMultipleForbiddenException(message: String) : Exception(message)
 
-    fun <T> getAsList(url: String, classType: Class<T>, completionHandler: (Result<List<T>>) -> Unit) {
+    fun <T> getAsList(url: String, classType: Class<T>, completionHandler: (Result<List<T>>) -> Unit, elementAdd: ((JsonElement, T) -> Unit)? = null) {
         val url = URL(url)
 
         val request = Request.Builder().url(url).build()
@@ -36,7 +36,7 @@ class ApiGetMultipleRequest(private val httpClient: HttpClient) {
 
                 if (response.code() == 200) {
                     try {
-                        val parseResult = parseJsonResult(body!!, classType)
+                        val parseResult = parseJsonResult(body!!, classType, elementAdd)
 
                         uiHandler.post {
                             completionHandler(Result.success(parseResult))
@@ -67,7 +67,7 @@ class ApiGetMultipleRequest(private val httpClient: HttpClient) {
     }
 
 
-    private fun <T> parseJsonResult(content: String, classType: Class<T>): List<T> {
+    private fun <T> parseJsonResult(content: String, classType: Class<T>, elementAdd: ((JsonElement, T) -> Unit)? = null): List<T> {
         val list = ArrayList<T>()
 
         var jsonElement = JsonParser().parse(content)
@@ -81,7 +81,11 @@ class ApiGetMultipleRequest(private val httpClient: HttpClient) {
         }
 
         for (el in jsonArray!!) {
-            list.add(gson.fromJson(el, classType))
+            val entity = gson.fromJson(el, classType)
+
+            elementAdd?.invoke(el, entity)
+
+            list.add(entity)
         }
 
         return list
