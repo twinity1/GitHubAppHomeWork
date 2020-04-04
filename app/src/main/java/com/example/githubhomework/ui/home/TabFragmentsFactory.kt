@@ -47,7 +47,7 @@ class TabFragmentsFactory(private val repositoryRepository: RepositoryRepository
 
         fragment.title = owner.resources.getString(R.string.my_recent_repos)
 
-        repositoryRepository.findAllUnownedRecentVisited {
+        repositoryRepository.findAllOwnedRecentVisited {
             fragment.repositoryList = it
         }
 

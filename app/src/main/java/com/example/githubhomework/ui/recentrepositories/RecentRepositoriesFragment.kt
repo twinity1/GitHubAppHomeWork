@@ -1,5 +1,6 @@
 package com.example.githubhomework.ui.recentrepositories
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.GridView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.githubhomework.R
+import com.example.githubhomework.RepositoryActivity
 import com.example.githubhomework.databinding.FragmentRecentRepositoriesBinding
 import com.example.githubhomework.persistence.entities.Repository
 import org.koin.android.ext.android.inject
@@ -43,7 +45,16 @@ class RecentRepositoriesFragment : Fragment() {
 
     private fun setAdapter() {
         if (::gridView.isInitialized) {
-            gridView.adapter = GridViewAdapter(requireContext(), repositoryList)
+            val gridViewAdapter = GridViewAdapter(requireContext(), repositoryList)
+            gridView.adapter = gridViewAdapter
+
+            gridViewAdapter.onRepositorySelect = {
+                val intent = Intent(requireContext(), RepositoryActivity::class.java)
+
+                intent.putExtra(RepositoryActivity.REPOSITORY_FULLNAME, it.fullName)
+
+                startActivity(intent)
+            }
         }
     }
 }

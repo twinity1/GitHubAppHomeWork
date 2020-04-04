@@ -3,15 +3,12 @@ package com.example.githubhomework
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.githubhomework.databinding.ActivityRepositoryBinding
 import com.example.githubhomework.ui.repository.RepositoryFragment
-import com.example.githubhomework.ui.repository.RepositoryViewModel
 import kotlinx.android.synthetic.main.activity_repository.*
-import ru.semper_viventem.backdrop.BackdropBehavior
 
 class RepositoryActivity : AppCompatActivity() {
     companion object {
-        val REPOSITORY_FULLNAME_URL = "repository_full_name"
+        val REPOSITORY_FULLNAME = "repository_full_name"
     }
 
     private lateinit var repositoryFragment: RepositoryFragment
@@ -22,7 +19,7 @@ class RepositoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_repository)
 
         repositoryFragment = fragmentRepository as RepositoryFragment
-        repositoryFragment.repositoryFullName = intent.getStringExtra(REPOSITORY_FULLNAME_URL)!!
+        repositoryFragment.repositoryFullName = intent.getStringExtra(REPOSITORY_FULLNAME)!!
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

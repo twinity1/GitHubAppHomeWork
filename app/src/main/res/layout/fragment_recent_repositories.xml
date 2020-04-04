@@ -14,6 +14,11 @@
         android:layout_height="match_parent">
 
         <GridView
+            android:layout_marginTop="@dimen/big_gap"
+            android:verticalSpacing="24dp"
+            android:horizontalSpacing="10dp"
+            android:gravity="center"
+            android:numColumns="2"
             android:id="@+id/recentRepositoriesGridView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

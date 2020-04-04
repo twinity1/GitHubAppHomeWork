@@ -50,7 +50,7 @@ class UserFragment : Fragment() {
             repositoryListAdapter.onShowRepository = {
                 val intent = Intent(activity, RepositoryActivity::class.java)
 
-                intent.putExtra(RepositoryActivity.REPOSITORY_FULLNAME_URL, it.entity.fullName)
+                intent.putExtra(RepositoryActivity.REPOSITORY_FULLNAME, it.entity.fullName)
 
                 startActivity(intent)
             }
