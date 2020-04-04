@@ -15,8 +15,8 @@
 
         <GridView
             android:layout_marginTop="@dimen/big_gap"
-            android:verticalSpacing="24dp"
-            android:horizontalSpacing="10dp"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="5dp"
             android:gravity="center"
             android:numColumns="2"
             android:id="@+id/recentRepositoriesGridView"

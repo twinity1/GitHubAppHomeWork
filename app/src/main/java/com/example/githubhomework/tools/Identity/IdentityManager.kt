@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.githubhomework.persistence.AppDatabase
 import com.example.githubhomework.persistence.entities.Identity
+import com.example.githubhomework.persistence.repositories.RepositoryRepository
 import com.example.githubhomework.tools.HttpClient.BasicCredentialsInterceptor
 import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.google.gson.JsonParser
@@ -12,9 +13,18 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Request
 import okhttp3.Response
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import java.io.IOException
 
-class IdentityManager(private val httpClient: HttpClient, private val basicCredentialsInterceptor: BasicCredentialsInterceptor, private val appDatabase: AppDatabase) {
+class IdentityManager(
+    private val httpClient: HttpClient,
+    private val basicCredentialsInterceptor: BasicCredentialsInterceptor,
+    private val appDatabase: AppDatabase
+) : KoinComponent
+{
+    private val repositoryRepository: RepositoryRepository by inject()
+
     var identity: Identity? = null
 
     init {
@@ -51,6 +61,7 @@ class IdentityManager(private val httpClient: HttpClient, private val basicCrede
                     val newIdentity = appDatabase.identityDao().getIdentity() ?: Identity(null, username, password)
                     appDatabase.identityDao().save(newIdentity)
                     identity = newIdentity
+                    repositoryRepository.storeAllRepositoriesForCurrentUser()
 
                     handler.post {
                         completionHandler(Result.success(newIdentity))

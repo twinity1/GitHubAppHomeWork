@@ -20,12 +20,13 @@ import com.example.githubhomework.ui.repository.IssueObserver
 import com.example.githubhomework.ui.repository.LabelObserver
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import org.koin.dsl.onClose
 
 
 val myModule = module {
     //repositories
     single { IssueRepository(get(), get(), get(), get()) }
-    single { RepositoryRepository(get(), get(), get(), get()) }
+    single { RepositoryRepository(get(), get(), get(), get(), get()) }
     single { UserRepository(get(), get()) }
 
     //tools

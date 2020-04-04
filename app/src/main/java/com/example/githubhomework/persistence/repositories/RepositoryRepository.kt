@@ -17,7 +17,13 @@ import java.net.UnknownHostException
 import java.time.LocalDateTime
 import java.util.*
 
-class RepositoryRepository(private val multipleRequest: ApiGetMultipleRequest, private val singleRequest: ApiGetSingleRequest, private val appDatabase: AppDatabase, private val identityManager: IdentityManager) {
+class RepositoryRepository(
+    private val multipleRequest: ApiGetMultipleRequest,
+    private val singleRequest: ApiGetSingleRequest,
+    private val appDatabase: AppDatabase,
+    private val identityManager: IdentityManager,
+    private val issueRepository: IssueRepository
+) {
 
     private val repositoryHydrator: ((JsonElement, Repository) -> Unit) = { jsonElement, repository ->
         repository.ownerLogin = jsonElement.asJsonObject.get("owner").asJsonObject.get("login").asString
@@ -108,6 +114,24 @@ class RepositoryRepository(private val multipleRequest: ApiGetMultipleRequest, p
                     completionHandler(result)
                 }
             }
+        }
+    }
+
+    fun storeAllRepositoriesForCurrentUser() {
+        if (identityManager.identity == null) {
+            return
+        }
+
+        findAllByReposUrl("https://api.github.com/users/${identityManager.identity!!.username}/repos") {
+            it.fold(
+                onSuccess = {
+                    it.forEach {
+                        storeRepositoryToLocalStorage(it)
+                        issueRepository.findAll(it.issuesUrl, {}) //this method stores all issues from the repository
+                    }
+                },
+                onFailure = {}
+            )
         }
     }
 
