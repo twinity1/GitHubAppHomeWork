@@ -2,7 +2,7 @@
     <string name="app_name">GitHubHomework</string>
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_about_app">About app</string>
     <string name="title_activity_user">User</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -39,4 +39,10 @@
     <string name="edit_issue_desc">Edit issue</string>
     <string name="delete_issue_desc">Delete issue</string>
     <string name="username_hint">Type username…</string>
+    <string name="author">Author:</string>
+    <string name="author_value">Aleš Kůtek</string>
+    <string name="version">Version:</string>
+    <string name="version_value">1.0</string>
+    <string name="app_desc">Description:</string>
+    <string name="app_desc_value">Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of ..</string>
 </resources>

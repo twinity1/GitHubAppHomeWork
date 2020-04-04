@@ -10,4 +10,6 @@
     <dimen name="fab_size">56dp</dimen>
     <dimen name="list_item_height">60dp</dimen>
     <dimen name="list_item_text_size">16sp</dimen>
+    <dimen name="basic_text_size">20sp</dimen>
+    <dimen name="value_offset">10dp</dimen>
 </resources>
