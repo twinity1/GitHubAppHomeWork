@@ -42,10 +42,7 @@ class UserFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.repositoryList.observe(viewLifecycleOwner, Observer {
-            val repositoryListAdapter =
-                RepositoryListAdapter(
-                    it
-                )
+            val repositoryListAdapter = RepositoryListAdapter(it)
 
             gitHubUserList.layoutManager = LinearLayoutManager(activity)
             gitHubUserList.adapter = repositoryListAdapter
@@ -58,8 +55,6 @@ class UserFragment : Fragment() {
                 startActivity(intent)
             }
         })
-
-
 
         return binding.root
     }

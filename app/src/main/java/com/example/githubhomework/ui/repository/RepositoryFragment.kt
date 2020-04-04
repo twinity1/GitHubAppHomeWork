@@ -84,17 +84,17 @@ class RepositoryFragment : Fragment() {
     }
 
     fun refresh() {
-        repositoryRepository.findSingle(repositoryFullName) {
-            it.fold(
-                onSuccess = {
-                    viewModel.repository.value = it
-                },
-                onFailure = {
-                    Toast.makeText(requireActivity(), ErrorMessageHandler().getStringByException(it, requireActivity().resources), Toast.LENGTH_LONG).show()
-                    activity?.finish()
-                }
-            )
-        }
+//        repositoryRepository.findSingle(repositoryFullName) {
+//            it.fold(
+//                onSuccess = {
+//                    viewModel.repository.value = it
+//                },
+//                onFailure = {
+//                    Toast.makeText(requireActivity(), ErrorMessageHandler().getStringByException(it, requireActivity().resources), Toast.LENGTH_LONG).show()
+//                    activity?.finish()
+//                }
+//            )
+//        }
 
         issueRepository.findAll(repositoryFullName) {
             it.fold(

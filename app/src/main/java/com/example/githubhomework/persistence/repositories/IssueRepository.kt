@@ -13,6 +13,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import okhttp3.*
 import java.io.IOException
+import java.net.UnknownHostException
 
 class IssueRepository(
     private val multipleRequest: ApiGetMultipleRequest,
@@ -47,7 +48,7 @@ class IssueRepository(
                     completionHandler(result)
                 },
                 onFailure = {
-                    if (it is UnknownError) {
+                    if (it is UnknownHostException) {
                         findAllLocalStorage(repositoryFullName) { completionHandler(Result.success(it)) }
                     } else {
                         completionHandler(result)
@@ -58,13 +59,42 @@ class IssueRepository(
         }, elementHydrator = issueHydrator)
     }
 
+    class IssueNotFound : Exception()
     fun findSingle(issueUrl: String, completionHandler: (Result<Issue>) -> Unit) {
-        singleRequest.getAsObject(issueUrl, Issue::class.java, completionHandler, elementHydrator = issueHydrator)
+        singleRequest.getAsObject(issueUrl, Issue::class.java, {
+            val result = it
+
+            it.fold(
+                onSuccess = {
+                    completionHandler(result)
+                },
+                onFailure = {
+                    if (it is UnknownHostException) {
+                        findSingleLocalStorage(issueUrl) {
+                            completionHandler(if (it == null) Result.failure(IssueNotFound()) else Result.success(it!!))
+                        }
+                    } else {
+                        completionHandler(result)
+                    }
+                }
+            )
+
+        }, elementHydrator = issueHydrator)
     }
 
     private fun findAllLocalStorage(repositoryFullName: String, completionHandler: (List<Issue>) -> Unit) {
         AsyncTask.execute {
             val result = appDatabase.issueDao().findAllByRepositoryName(repositoryFullName)
+
+            Handler(Looper.getMainLooper()).post {
+                completionHandler(result)
+            }
+        }
+    }
+
+    private fun findSingleLocalStorage(issueUrl: String, completionHandler: (Issue?) -> Unit) {
+        AsyncTask.execute {
+            val result = appDatabase.issueDao().findOneByUrl(issueUrl)
 
             Handler(Looper.getMainLooper()).post {
                 completionHandler(result)
