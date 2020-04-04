@@ -13,6 +13,12 @@ data class Repository(
     @ColumnInfo
     val name: String,
 
+    @ColumnInfo
+    var ownerLogin: String,
+
+    @ColumnInfo
+    var ownerReposUrl: String,
+
     @SerializedName("full_name")
     @ColumnInfo
     val fullName: String,

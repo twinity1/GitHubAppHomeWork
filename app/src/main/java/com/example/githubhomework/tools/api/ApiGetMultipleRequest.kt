@@ -81,7 +81,7 @@ class ApiGetMultipleRequest(private val httpClient: HttpClient) {
         }
 
         for (el in jsonArray!!) {
-            val entity = gson.fromJson(el, classType)
+             val entity = gson.fromJson(el, classType)
 
             elementAdd?.invoke(el, entity)
 

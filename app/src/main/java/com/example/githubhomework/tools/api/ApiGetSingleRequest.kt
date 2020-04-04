@@ -15,7 +15,7 @@ class ApiGetSingleRequest(private val httpClient: HttpClient) {
 
     class ApiGetSingleForbiddenException(message: String) : Exception(message)
 
-    fun <T> getAsObject(url: String, classType: Class<T>, completionHandler: (Result<T>) -> Unit) {
+    fun <T> getAsObject(url: String, classType: Class<T>, completionHandler: (Result<T>) -> Unit, elementHydrator: ((JsonElement, T) -> Unit)? = null) {
         val url = URL(url)
 
         val request = Request.Builder().url(url).build()
@@ -34,7 +34,7 @@ class ApiGetSingleRequest(private val httpClient: HttpClient) {
 
                 if (response.code() == 200) {
                     try {
-                        val parseResult = SingleResultParser().parseJsonResult(body!!, classType)
+                        val parseResult = SingleResultParser().parseJsonResult(body!!, classType, elementHydrator)
 
                         uiHandler.post {
                             completionHandler(Result.success(parseResult))

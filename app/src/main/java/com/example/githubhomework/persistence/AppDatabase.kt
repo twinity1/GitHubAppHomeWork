@@ -8,7 +8,7 @@ import com.example.githubhomework.persistence.daos.IssueDao
 import com.example.githubhomework.persistence.daos.RepositoryDao
 import com.example.githubhomework.persistence.entities.*
 
-@Database(entities = arrayOf(Identity::class, Issue::class, Repository::class), version = 4)
+@Database(entities = arrayOf(Identity::class, Issue::class, Repository::class), version = 6)
 @TypeConverters(LabelDataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun identityDao(): IdentityDao
