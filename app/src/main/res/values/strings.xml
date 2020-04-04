@@ -19,6 +19,9 @@
     <string name="edit_issue_title">Edit issue</string>
 
 
+    <string name="my_recent_repos">My recent repositories</string>
+    <string name="unowned_recent_repos">Recent repositories</string>
+
     <!-- Delete dialog -->
     <string name="delete_dialog_title">Delete</string>
     <string name="delete_dialog_message">Are you sure you want delete this item?</string>

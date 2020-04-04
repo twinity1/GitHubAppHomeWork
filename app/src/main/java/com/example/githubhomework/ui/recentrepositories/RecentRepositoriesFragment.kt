@@ -18,6 +18,8 @@ class RecentRepositoriesFragment : Fragment() {
 
     private lateinit var gridView: GridView
 
+    var title = ""
+
     var repositoryList: List<Repository> = listOf()
         set(value) {
             field = value

@@ -8,6 +8,7 @@ import com.example.githubhomework.tools.api.ApiGetSingleRequest
 import com.example.githubhomework.tools.HttpClient.BasicCredentialsInterceptor
 import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.example.githubhomework.tools.Identity.IdentityManager
+import com.example.githubhomework.ui.home.TabFragmentsFactory
 import com.example.githubhomework.ui.searchuser.RecycleViewObserver
 import com.example.githubhomework.ui.searchuser.SearchObserver
 import com.example.githubhomework.ui.issueform.IssueFormSubmit
@@ -37,6 +38,9 @@ val myModule = module {
     factory { ApiGetMultipleRequest(get()) }
 
     //home screen
+    single { TabFragmentsFactory(get(), get()) }
+
+    //search user screen
     single { SearchObserver(get()) }
     single { RecycleViewObserver() }
 

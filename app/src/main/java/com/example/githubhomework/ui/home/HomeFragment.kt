@@ -22,8 +22,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
-    private val identityManager: IdentityManager by inject()
-    private val repositoryRepository: RepositoryRepository by inject()
+
+    private val tabFragmentsFactory: TabFragmentsFactory by inject()
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
@@ -48,45 +48,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun configureView() {
-        val fragments = ArrayList<Fragment>()
+        val fragments = tabFragmentsFactory.getFragments(this)
 
         val viewPagerAdapter = ViewPagerAdapter(fragments, requireActivity())
         viewPager.adapter = viewPagerAdapter
-
-
-        val notMyRepositories = requireActivity().supportFragmentManager.fragmentFactory.instantiate(
-            ClassLoader.getSystemClassLoader(),
-            RecentRepositoriesFragment::class.getFullName()
-        ) as RecentRepositoriesFragment
-
-        repositoryRepository.findAllUnownedRecentVisited {
-            notMyRepositories.repositoryList = it
-        }
-
-        if (identityManager.identity != null) {
-            val myRepositories = requireActivity().supportFragmentManager.fragmentFactory.instantiate(
-                ClassLoader.getSystemClassLoader(),
-                RecentRepositoriesFragment::class.getFullName()
-            ) as RecentRepositoriesFragment
-
-
-            repositoryRepository.findAllOwnedRecentVisited {
-                myRepositories.repositoryList = it
-            }
-
-            fragments.add(myRepositories)
-        }
-
-        fragments.add(notMyRepositories)
 
         TabLayoutMediator(
             tabLayout,
             viewPager,
             object : TabLayoutMediator.TabConfigurationStrategy {
                 override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-                    val titles = listOf("My recent repositories", "Recent repositories")
-
-                    tab.setText(titles[position])
+                    tab.setText(fragments[position].title)
                 }
             }).attach()
     }
