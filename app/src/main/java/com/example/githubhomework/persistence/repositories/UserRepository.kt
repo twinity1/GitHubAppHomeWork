@@ -1,6 +1,8 @@
 package com.example.githubhomework.persistence.repositories
 
 import android.os.AsyncTask
+import android.os.Handler
+import android.os.Looper
 import com.example.githubhomework.persistence.AppDatabase
 import com.example.githubhomework.persistence.entities.User
 import com.example.githubhomework.tools.api.ApiGetMultipleRequest
@@ -26,7 +28,7 @@ class UserRepository(private val multipleRequest: ApiGetMultipleRequest, private
                 },
                 onFailure = {
                     if (it is UnknownHostException) {
-                        findByNameLocalStorage(name) { completionHandler(Result.success(it)) }
+                         findByNameLocalStorage(name) { completionHandler(Result.success(it)) }
                     } else {
                         completionHandler(result)
                     }
@@ -36,6 +38,12 @@ class UserRepository(private val multipleRequest: ApiGetMultipleRequest, private
     }
 
     private fun findByNameLocalStorage(name: String, completionHandler: (List<User>) -> Unit) {
+        AsyncTask.execute {
+            val result = appDatabase.userDao().searchByNameInRepositories(name)
 
+            Handler(Looper.getMainLooper()).post {
+                completionHandler(result)
+            }
+        }
     }
 }

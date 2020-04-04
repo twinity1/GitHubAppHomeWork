@@ -16,4 +16,7 @@ interface RepositoryDao {
 
     @Query("SELECT * FROM Repository WHERE fullName = :fullName LIMIT 1")
     fun findOneByFullName(fullName: String): Repository?
+
+    @Query("SELECT * FROM REPOSITORY WHERE ownerReposUrl = :reposUrl")
+    fun findAllByReposUrl(reposUrl: String): List<Repository>
 }

@@ -6,9 +6,10 @@ import androidx.room.TypeConverters
 import com.example.githubhomework.persistence.daos.IdentityDao
 import com.example.githubhomework.persistence.daos.IssueDao
 import com.example.githubhomework.persistence.daos.RepositoryDao
+import com.example.githubhomework.persistence.daos.UserDao
 import com.example.githubhomework.persistence.entities.*
 
-@Database(entities = arrayOf(Identity::class, Issue::class, Repository::class), version = 6)
+@Database(entities = arrayOf(Identity::class, Issue::class, Repository::class, User::class), version = 7)
 @TypeConverters(LabelDataConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun identityDao(): IdentityDao
@@ -16,4 +17,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun issueDao(): IssueDao
 
     abstract fun repositoryDao(): RepositoryDao
+
+    abstract fun userDao(): UserDao
 }

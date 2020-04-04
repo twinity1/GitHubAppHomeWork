@@ -8,6 +8,6 @@ import com.example.githubhomework.persistence.entities.User
 
 @Dao
 interface UserDao {
-    @Query("SELECT * FROM Repository WHERE own = :fullName LIMIT 1")
+    @Query("SELECT ownerLogin as login, ownerReposUrl as reposUrl, null as uid  FROM Repository WHERE ownerLogin LIKE '%' || :ownerName || '%'")
     fun searchByNameInRepositories(ownerName: String): List<User>
 }

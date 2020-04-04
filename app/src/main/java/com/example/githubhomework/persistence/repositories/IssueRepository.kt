@@ -10,6 +10,7 @@ import com.example.githubhomework.tools.api.ApiGetSingleRequest
 import com.example.githubhomework.tools.HttpClient.HttpClient
 import com.example.githubhomework.tools.api.parsers.SingleResultParser
 import com.google.gson.Gson
+import com.google.gson.JsonElement
 import okhttp3.*
 import java.io.IOException
 
@@ -24,29 +25,51 @@ class IssueRepository(
     private class UnknownErrorException : Exception()
     private data class IssueDto(val title: String, val body: String)
 
+
+    private val issueHydrator : ((JsonElement, Issue) -> Unit) = { jsonElement, issue ->
+        issue.owner = jsonElement.asJsonObject.get("user").asJsonObject.get("login").asString
+
+        //github doesn't provide repositoryName, but we can get him from repository url
+        val repositoryUrl = jsonElement.asJsonObject.get("repository_url").asString.split("/").toTypedArray()
+        issue.repositoryName = "${repositoryUrl[repositoryUrl.count() - 2]}/${repositoryUrl[repositoryUrl.count() - 1]}"
+    }
+
     fun findAll(repositoryFullName: String, completionHandler: (Result<List<Issue>>) -> Unit) {
         multipleRequest.getAsList(baseApiUrl + repositoryFullName + "/issues", Issue::class.java, {
-            completionHandler(it)
+            val result = it
 
             it.fold(
                 onSuccess = {
                     AsyncTask.execute {
                         storeIssuesToListDatabase(it)
                     }
+
+                    completionHandler(result)
                 },
                 onFailure = {
-
+                    if (it is UnknownError) {
+                        findAllLocalStorage(repositoryFullName) { completionHandler(Result.success(it)) }
+                    } else {
+                        completionHandler(result)
+                    }
                 }
             )
 
-        }, elementAdd = { jsonElement, issue ->
-            issue.owner = jsonElement.asJsonObject.get("user").asJsonObject.get("login").asString
-            issue.repositoryName = repositoryFullName
-        })
+        }, elementHydrator = issueHydrator)
     }
 
     fun findSingle(issueUrl: String, completionHandler: (Result<Issue>) -> Unit) {
-        singleRequest.getAsObject(issueUrl, Issue::class.java, completionHandler)
+        singleRequest.getAsObject(issueUrl, Issue::class.java, completionHandler, elementHydrator = issueHydrator)
+    }
+
+    private fun findAllLocalStorage(repositoryFullName: String, completionHandler: (List<Issue>) -> Unit) {
+        AsyncTask.execute {
+            val result = appDatabase.issueDao().findAllByRepositoryName(repositoryFullName)
+
+            Handler(Looper.getMainLooper()).post {
+                completionHandler(result)
+            }
+        }
     }
 
     private fun storeIssuesToListDatabase(issues: List<Issue>) {
@@ -90,18 +113,18 @@ class IssueRepository(
         makeRequest(r, completionHandler)
     }
 
-    fun removeIssue(repositoryFullName: String, issue: Issue, completionHandler: (Result<Issue>) -> Unit) {
-        val jsonBody = Gson().toJson(IssueDto(title = issue.title, body = issue.body))
-
-        val body = RequestBody.create(MediaType.parse("application/json"), jsonBody)
-
-        val r = Request.Builder()
-            .url("https://api.github.com/repos/${repositoryFullName}/issues/${issue.number}")
-            .patch(body)
-            .build()
-
-//        makeRequest()
-    }
+//    fun removeIssue(repositoryFullName: String, issue: Issue, completionHandler: (Result<Issue>) -> Unit) {
+//        val jsonBody = Gson().toJson(IssueDto(title = issue.title, body = issue.body))
+//
+//        val body = RequestBody.create(MediaType.parse("application/json"), jsonBody)
+//
+//        val r = Request.Builder()
+//            .url("https://api.github.com/repos/${repositoryFullName}/issues/${issue.number}")
+//            .patch(body)
+//            .build()
+//
+////        makeRequest()
+//    }
 
     private fun makeRequest(
         r: Request,

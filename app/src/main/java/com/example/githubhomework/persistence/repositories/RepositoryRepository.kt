@@ -1,6 +1,8 @@
 package com.example.githubhomework.persistence.repositories
 
 import android.os.AsyncTask
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.example.githubhomework.persistence.AppDatabase
 import com.example.githubhomework.persistence.entities.Repository
@@ -8,6 +10,8 @@ import com.example.githubhomework.persistence.entities.User
 import com.example.githubhomework.tools.api.ApiGetMultipleRequest
 import com.example.githubhomework.tools.api.ApiGetSingleRequest
 import com.google.gson.JsonElement
+import java.lang.Exception
+import java.net.UnknownHostException
 
 class RepositoryRepository(private val multipleRequest: ApiGetMultipleRequest, private val singleRequest: ApiGetSingleRequest, private val appDatabase: AppDatabase) {
 
@@ -18,33 +22,77 @@ class RepositoryRepository(private val multipleRequest: ApiGetMultipleRequest, p
 
     fun findAllByReposUrl(reposUrl: String, completionHandler: (Result<List<Repository>>) -> Unit) {
         multipleRequest.getAsList(reposUrl, Repository::class.java, {
-            completionHandler(it)
-        }, repositoryHydrator)
-    }
-
-    fun findSingle(repositoryName: String, completionHandler: (Result<Repository>) -> Unit) {
-        singleRequest.getAsObject("https://api.github.com/repos/${repositoryName}", Repository::class.java, {
-            completionHandler(it)
+            val result= it
 
             it.fold(
                 onSuccess = {
-                    AsyncTask.execute {
-                        storeRepositoryToLocalStorage(it)
-                    }
+                    completionHandler(result)
                 },
-                onFailure = {}
+                onFailure = {
+                    if (it is UnknownHostException) {
+                        findAllByReposUrlLocalStorage(reposUrl) { completionHandler(Result.success(it)) }
+                    } else {
+                        completionHandler(result)
+                    }
+                }
             )
         }, repositoryHydrator)
     }
 
-    private fun storeRepositoryToLocalStorage(repository: Repository) {
-        val repoFromDb = appDatabase.repositoryDao().findOneByFullName(repository.fullName)
+    class RepositoryNotFound : Exception()
+    fun findSingle(repositoryName: String, completionHandler: (Result<Repository>) -> Unit) {
+        singleRequest.getAsObject("https://api.github.com/repos/${repositoryName}", Repository::class.java, {
+            val result = it
 
-        if (repoFromDb == null) {
-            appDatabase.repositoryDao().insert(repository)
-        } else {
-            repository.uid = repoFromDb!!.uid
-            appDatabase.repositoryDao().update(repository)
+            it.fold(
+                onSuccess = {
+                    storeRepositoryToLocalStorage(it)
+
+                    completionHandler(result)
+                },
+                onFailure = {
+                    if (it is UnknownHostException) {
+                        findSingleLocalStorage(repositoryName) {
+                            completionHandler(if (it == null) Result.failure(RepositoryNotFound()) else Result.success(it!!))
+                        }
+                    } else {
+                        completionHandler(result)
+                    }
+                }
+            )
+        }, repositoryHydrator)
+    }
+
+    private fun findAllByReposUrlLocalStorage(reposUrl: String, completionHandler: (List<Repository>) -> Unit) {
+        AsyncTask.execute {
+            val result = appDatabase.repositoryDao().findAllByReposUrl(reposUrl)
+
+            Handler(Looper.getMainLooper()).post {
+                completionHandler(result)
+            }
+        }
+    }
+
+    private fun findSingleLocalStorage(repositoryName: String, completionHandler: (Repository?) -> Unit) {
+        AsyncTask.execute {
+            val result = appDatabase.repositoryDao().findOneByFullName(repositoryName)
+
+            Handler(Looper.getMainLooper()).post {
+                completionHandler(result)
+            }
+        }
+    }
+
+    private fun storeRepositoryToLocalStorage(repository: Repository) {
+        AsyncTask.execute {
+            val repoFromDb = appDatabase.repositoryDao().findOneByFullName(repository.fullName)
+
+            if (repoFromDb == null) {
+                appDatabase.repositoryDao().insert(repository)
+            } else {
+                repository.uid = repoFromDb!!.uid
+                appDatabase.repositoryDao().update(repository)
+            }
         }
     }
 }

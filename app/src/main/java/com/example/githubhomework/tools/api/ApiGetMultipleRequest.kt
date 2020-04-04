@@ -17,7 +17,7 @@ class ApiGetMultipleRequest(private val httpClient: HttpClient) {
 
     class ApiGetMultipleForbiddenException(message: String) : Exception(message)
 
-    fun <T> getAsList(url: String, classType: Class<T>, completionHandler: (Result<List<T>>) -> Unit, elementAdd: ((JsonElement, T) -> Unit)? = null) {
+    fun <T> getAsList(url: String, classType: Class<T>, completionHandler: (Result<List<T>>) -> Unit, elementHydrator: ((JsonElement, T) -> Unit)? = null) {
         val url = URL(url)
 
         val request = Request.Builder().url(url).build()
@@ -36,7 +36,7 @@ class ApiGetMultipleRequest(private val httpClient: HttpClient) {
 
                 if (response.code() == 200) {
                     try {
-                        val parseResult = parseJsonResult(body!!, classType, elementAdd)
+                        val parseResult = parseJsonResult(body!!, classType, elementHydrator)
 
                         uiHandler.post {
                             completionHandler(Result.success(parseResult))

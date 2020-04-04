@@ -15,4 +15,7 @@ interface IssueDao {
 
     @Query("SELECT * FROM Issue WHERE url = :url LIMIT 1")
     fun findOneByUrl(url: String): Issue?
+
+    @Query("SELECT * FROM Issue WHERE repositoryName = :repositoryName")
+    fun findAllByRepositoryName(repositoryName: String): List<Issue>
 }
