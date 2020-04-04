@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeBinding
+import com.example.githubhomework.persistence.repositories.RepositoryRepository
 import com.example.githubhomework.tools.Identity.IdentityManager
 import com.example.githubhomework.ui.recentrepositories.RecentRepositoriesFragment
 import com.google.android.material.tabs.TabLayout
@@ -22,6 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: FragmentHomeBinding
     private val identityManager: IdentityManager by inject()
+    private val repositoryRepository: RepositoryRepository by inject()
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
@@ -51,19 +53,30 @@ class HomeFragment : Fragment() {
         val viewPagerAdapter = ViewPagerAdapter(fragments, requireActivity())
         viewPager.adapter = viewPagerAdapter
 
-        if (identityManager.identity != null) {
-            val myRepositories = requireActivity().supportFragmentManager.fragmentFactory.instantiate(
-                ClassLoader.getSystemClassLoader(),
-                RecentRepositoriesFragment::class.getFullName()
-            )
-
-            fragments.add(myRepositories)
-        }
 
         val notMyRepositories = requireActivity().supportFragmentManager.fragmentFactory.instantiate(
             ClassLoader.getSystemClassLoader(),
             RecentRepositoriesFragment::class.getFullName()
-        )
+        ) as RecentRepositoriesFragment
+
+        repositoryRepository.findAllUnownedRecentVisited {
+            notMyRepositories.repositoryList = it
+        }
+
+        if (identityManager.identity != null) {
+            val myRepositories = requireActivity().supportFragmentManager.fragmentFactory.instantiate(
+                ClassLoader.getSystemClassLoader(),
+                RecentRepositoriesFragment::class.getFullName()
+            ) as RecentRepositoriesFragment
+
+
+            repositoryRepository.findAllOwnedRecentVisited {
+                myRepositories.repositoryList = it
+            }
+
+            fragments.add(myRepositories)
+        }
+
         fragments.add(notMyRepositories)
 
         TabLayoutMediator(
@@ -71,7 +84,9 @@ class HomeFragment : Fragment() {
             viewPager,
             object : TabLayoutMediator.TabConfigurationStrategy {
                 override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-                    tab.setText("xxx ${position}")
+                    val titles = listOf("My recent repositories", "Recent repositories")
+
+                    tab.setText(titles[position])
                 }
             }).attach()
     }

@@ -4,16 +4,20 @@ import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.room.Query
 import com.example.githubhomework.persistence.AppDatabase
 import com.example.githubhomework.persistence.entities.Repository
 import com.example.githubhomework.persistence.entities.User
+import com.example.githubhomework.tools.Identity.IdentityManager
 import com.example.githubhomework.tools.api.ApiGetMultipleRequest
 import com.example.githubhomework.tools.api.ApiGetSingleRequest
 import com.google.gson.JsonElement
 import java.lang.Exception
 import java.net.UnknownHostException
+import java.time.LocalDateTime
+import java.util.*
 
-class RepositoryRepository(private val multipleRequest: ApiGetMultipleRequest, private val singleRequest: ApiGetSingleRequest, private val appDatabase: AppDatabase) {
+class RepositoryRepository(private val multipleRequest: ApiGetMultipleRequest, private val singleRequest: ApiGetSingleRequest, private val appDatabase: AppDatabase, private val identityManager: IdentityManager) {
 
     private val repositoryHydrator: ((JsonElement, Repository) -> Unit) = { jsonElement, repository ->
         repository.ownerLogin = jsonElement.asJsonObject.get("owner").asJsonObject.get("login").asString
@@ -83,8 +87,34 @@ class RepositoryRepository(private val multipleRequest: ApiGetMultipleRequest, p
         }
     }
 
+    fun findAllUnownedRecentVisited(limit: Int = 8, completionHandler: (List<Repository>) -> Unit) {
+        AsyncTask.execute {
+            val result = appDatabase.repositoryDao().findAllUnownedRecentVisited(limit, identityManager.identity?.username)
+
+            Handler(Looper.getMainLooper()).post {
+                completionHandler(result)
+            }
+        }
+    }
+
+    fun findAllOwnedRecentVisited(limit: Int = 8, completionHandler: (List<Repository>) -> Unit) {
+        if (identityManager.identity == null) {
+            completionHandler(listOf())
+        } else {
+            AsyncTask.execute {
+                val result = appDatabase.repositoryDao().findAllOwnedRecentVisited(limit, identityManager.identity!!.username)
+
+                Handler(Looper.getMainLooper()).post {
+                    completionHandler(result)
+                }
+            }
+        }
+    }
+
     private fun storeRepositoryToLocalStorage(repository: Repository) {
         AsyncTask.execute {
+            repository.lastVisitTimestamp = (System.currentTimeMillis() / 1000).toInt() //we don't need milliseconds precision
+
             val repoFromDb = appDatabase.repositoryDao().findOneByFullName(repository.fullName)
 
             if (repoFromDb == null) {
