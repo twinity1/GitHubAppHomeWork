@@ -12,7 +12,6 @@ class App : Application() {
 
         val db = Room
             .databaseBuilder(applicationContext, AppDatabase::class.java, "master")
-            .fallbackToDestructiveMigration()
             .build()
         myModule.single { db }
 
