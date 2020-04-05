@@ -14,7 +14,7 @@
         android:id="@+id/fragmentGitHubUser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.githubhomework.ui.githubuser.UserFragment"
+        android:name="com.example.githubhomework.ui.user.UserFragment"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@ package com.example.githubhomework
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.githubhomework.ui.githubuser.UserFragment
+import com.example.githubhomework.ui.user.UserFragment
 
 import kotlinx.android.synthetic.main.activity_user.*
 

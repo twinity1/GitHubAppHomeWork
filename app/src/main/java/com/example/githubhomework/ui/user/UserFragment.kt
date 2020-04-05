@@ -1,4 +1,4 @@
-package com.example.githubhomework.ui.githubuser
+package com.example.githubhomework.ui.user
 
 import android.content.Intent
 import android.os.Bundle
@@ -23,7 +23,7 @@ import org.koin.android.ext.android.inject
 
 class UserFragment : Fragment() {
 
-    private lateinit var viewModel: UserViewModel
+    lateinit var viewModel: UserViewModel
 
     private lateinit var binding: FragmentUserBinding
 
@@ -38,23 +38,10 @@ class UserFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false)
-
         binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
-        viewModel.repositoryList.observe(viewLifecycleOwner, Observer {
-            val repositoryListAdapter = RepositoryListAdapter(it)
-
-            gitHubUserList.layoutManager = LinearLayoutManager(activity)
-            gitHubUserList.adapter = repositoryListAdapter
-
-            repositoryListAdapter.onShowRepository = {
-                val intent = Intent(activity, RepositoryActivity::class.java)
-
-                intent.putExtra(RepositoryActivity.REPOSITORY_FULLNAME, it.entity.fullName)
-
-                startActivity(intent)
-            }
-        })
+        viewModel.repositoryList.observe(viewLifecycleOwner, UserObserver().create(this))
 
         return binding.root
     }
@@ -62,23 +49,20 @@ class UserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gitHubUserList.addDivider(requireContext())
+        userList.addDivider(requireContext())
     }
 
     override fun onStart() {
         super.onStart()
 
         repositoryRepository.findAllByReposUrl(reposUrl) {
-            it.fold(
-                onSuccess = {
+            it.fold(onSuccess = {
                     viewModel.repositoryList.value = it
 
-                },
-                onFailure = {
+                }, onFailure = {
                     Toast.makeText(activity, ErrorMessageHandler().getStringByException(it, requireActivity().resources), Toast.LENGTH_LONG).show()
                 }
             )
         }
-
     }
 }

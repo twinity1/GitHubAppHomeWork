@@ -5,20 +5,32 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.githubhomework.ui.githubuser.UserViewModel" />
+            type="com.example.githubhomework.ui.user.UserViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:gravity="center"
+            android:visibility="@{viewModel.noFoundTextVisibility}"
+            android:text="@string/no_repositories_found"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="@{viewModel.itemsVisibility}"
             android:layout_marginStart="@dimen/fab_margin"
             android:layout_marginEnd="@dimen/fab_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/gitHubUserList"
+            android:id="@+id/userList"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
