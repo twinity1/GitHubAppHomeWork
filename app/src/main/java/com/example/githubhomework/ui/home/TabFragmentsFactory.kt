@@ -31,8 +31,12 @@ class TabFragmentsFactory(private val repositoryRepository: RepositoryRepository
 
         fragment.title = owner.resources.getString(R.string.unowned_recent_repos)
 
-        repositoryRepository.findAllUnownedRecentVisited {
-            fragment.viewModel.repositories.value = it
+        fragment.refreshHandler = {
+            repositoryRepository.findAllUnownedRecentVisited {
+                fragment.viewModel.repositories.value = it
+            }
+
+            fragment.refresh()
         }
 
         return fragment
@@ -47,8 +51,11 @@ class TabFragmentsFactory(private val repositoryRepository: RepositoryRepository
 
         fragment.title = owner.resources.getString(R.string.my_recent_repos)
 
-        repositoryRepository.findAllOwnedRecentVisited {
-            fragment.viewModel.repositories.value = it
+        fragment.refreshHandler = {
+            repositoryRepository.findAllOwnedRecentVisited {
+                fragment.viewModel.repositories.value = it
+            }
+            fragment.refresh()
         }
 
         return fragment

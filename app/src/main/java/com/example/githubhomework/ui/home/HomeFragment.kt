@@ -28,6 +28,8 @@ class HomeFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
+    private var repositoryFragments: List<RecentRepositoriesFragment> = listOf()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,9 +50,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun configureView() {
-        val fragments = tabFragmentsFactory.getFragments(this)
+        repositoryFragments = tabFragmentsFactory.getFragments(this)
 
-        val viewPagerAdapter = ViewPagerAdapter(fragments, requireActivity())
+        val viewPagerAdapter = ViewPagerAdapter(repositoryFragments, requireActivity())
         viewPager.adapter = viewPagerAdapter
 
         TabLayoutMediator(
@@ -58,8 +60,14 @@ class HomeFragment : Fragment() {
             viewPager,
             object : TabLayoutMediator.TabConfigurationStrategy {
                 override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-                    tab.setText(fragments[position].title)
+                    tab.setText(repositoryFragments[position].title)
                 }
             }).attach()
+    }
+
+    fun refresh() {
+        repositoryFragments.forEach {
+            it.refreshHandler()
+        }
     }
 }

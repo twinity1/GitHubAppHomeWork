@@ -23,6 +23,8 @@ class RecentRepositoriesFragment : Fragment() {
 
     var title = ""
 
+    var refreshHandler = {}
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,5 +43,13 @@ class RecentRepositoriesFragment : Fragment() {
 
     fun isGridViewInitialized(): Boolean {
         return ::gridView.isInitialized
+    }
+
+    fun refresh() {
+        if (isGridViewInitialized()) {
+            val gridViewAdapter = gridView.adapter as GridViewAdapter
+            gridViewAdapter.notifyDataSetChanged()
+            gridView.invalidate()
+        }
     }
 }
