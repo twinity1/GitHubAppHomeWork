@@ -31,8 +31,6 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        redraw()
-
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
@@ -43,6 +41,11 @@ class ProfileFragment : Fragment() {
         }
 
         return Screen.profileContent
+    }
+
+    override fun onStart() {
+        super.onStart()
+        redraw()
     }
 
     private fun redraw() {

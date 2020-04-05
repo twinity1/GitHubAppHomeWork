@@ -1,7 +1,9 @@
 package com.example.githubhomework.ui.searchuser
 
+import android.content.Context
 import android.content.Intent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubhomework.UserActivity
@@ -24,6 +26,10 @@ class RecycleViewObserver {
         owner.binding.searchRecycleView.apply {
             val userAdapter = UserListAdapter(it)
             userAdapter.onShowUser = {
+
+                val imm = owner.requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm?.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+
                 val intent = Intent(owner.activity, UserActivity::class.java)
 
                 intent.putExtra(UserActivity.EXTRA_GITHUB_REPOSITORY_URL, it.gitHubUser.reposUrl)
