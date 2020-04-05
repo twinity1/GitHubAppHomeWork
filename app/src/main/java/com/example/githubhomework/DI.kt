@@ -50,7 +50,7 @@ val myModule = module {
 
     //repository screen
     single { LabelObserver() }
-    single { IssueObserver() }
+    factory { IssueObserver(get()) }
 
     //view models
     viewModel { SignInViewModel(get()) }

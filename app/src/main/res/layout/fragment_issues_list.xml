@@ -39,6 +39,7 @@
             />
 
         <ImageButton
+            android:visibility="@{viewModel.editVisibility}"
             android:onClick="@{() -> viewModel.edit()}"
             android:contentDescription="@string/edit_issue_desc"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,6 +53,7 @@
             />
 
         <ImageButton
+            android:visibility="@{viewModel.deleteVisibility}"
             android:onClick="@{() -> viewModel.delete()}"
             android:contentDescription="@string/delete_issue_desc"
             app:layout_constraintTop_toTopOf="parent"

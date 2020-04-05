@@ -36,6 +36,9 @@ class RepositoryViewModel : ViewModel() {
     val recycleViewVisibility = MutableLiveData<Int>(View.GONE)
     //end empty screen
 
+    //floating action button
+    val addVisibility = MutableLiveData<Int>(View.GONE)
+
     //repository
     val repository = MutableLiveData<Repository>()
 

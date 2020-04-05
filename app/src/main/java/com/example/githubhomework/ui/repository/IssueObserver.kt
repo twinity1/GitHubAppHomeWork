@@ -10,20 +10,28 @@ import com.example.githubhomework.IssueFormActivity
 import com.example.githubhomework.R
 import com.example.githubhomework.components.lists.issues.IssuesListAdapter
 import com.example.githubhomework.persistence.entities.Issue
+import com.example.githubhomework.tools.Identity.IdentityManager
 import kotlinx.android.synthetic.main.fragment_repository.*
 
-class IssueObserver {
+class IssueObserver(private val identityManager: IdentityManager) {
+
+    private lateinit var adapter: IssuesListAdapter
+
     fun create(owner: RepositoryFragment): Observer<List<Issue>>
     {
         return Observer {
-            val adapter = IssuesListAdapter(it)
+            if (::adapter.isInitialized == false) {
+                adapter = IssuesListAdapter(it, identityManager)
+            }
 
             setOnIssueShowEvenet(adapter, owner)
             setOnIssueDeleteEvent(adapter, owner)
             setOnIssueEditEvent(adapter, owner)
 
+            adapter.issues = it
             owner.repositoryIssueList.layoutManager = LinearLayoutManager(owner.requireActivity())
             owner.repositoryIssueList.adapter = adapter
+            adapter.notifyDataSetChanged()
         }
     }
 

@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentIssuesListBinding
 import com.example.githubhomework.persistence.entities.Issue
+import com.example.githubhomework.tools.Identity.IdentityManager
 
-class IssuesListAdapter(private val issues: List<Issue>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class IssuesListAdapter(var issues: List<Issue>, private val identityManager: IdentityManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private lateinit var layoutInflater: LayoutInflater
 
     var onIssueShow: ((IssueListViewModel) -> Unit)? = null
@@ -38,7 +39,14 @@ class IssuesListAdapter(private val issues: List<Issue>) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val holder = holder as ViewHolder
 
-        val viewModel = IssueListViewModel(issues[position])
+        val entity = issues[position]
+        val viewModel = IssueListViewModel(entity)
+
+        if (identityManager.identity?.username == entity.owner) {
+            viewModel.editVisibility.value = View.VISIBLE
+        } else {
+            viewModel.editVisibility.value = View.GONE
+        }
 
         viewModel.onIssueShow = {
             onIssueShow?.invoke(viewModel)
