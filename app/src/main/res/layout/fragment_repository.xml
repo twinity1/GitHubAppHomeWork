@@ -55,8 +55,15 @@
                 android:layout_height="match_parent">
             </TextView>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <com.google.android.material.card.MaterialCardView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:visibility="@{viewModel.recycleViewVisibility}"
                 app:cardCornerRadius="8dp"
                 android:elevation="4dp"
@@ -64,34 +71,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/repositoryIssueList"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        android:layout_height="match_parent">
                     </androidx.recyclerview.widget.RecyclerView>
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:onClick="@{() -> viewModel.onNewIssueAdd()}"
-                        android:id="@+id/addIssue"
-                        android:src="@drawable/baseline_add_white_24"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="@dimen/fab_margin"
-                        android:layout_marginEnd="@dimen/fab_margin"
-                        android:layout_width="@dimen/fab_size"
-                        android:layout_height="@dimen/fab_size"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-        </FrameLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:onClick="@{() -> viewModel.onNewIssueAdd()}"
+                android:id="@+id/addIssue"
+                android:src="@drawable/baseline_add_white_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_width="@dimen/fab_size"
+                android:layout_height="@dimen/fab_size"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

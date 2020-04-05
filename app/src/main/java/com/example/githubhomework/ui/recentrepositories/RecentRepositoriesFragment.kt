@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.GridView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.githubhomework.R
 import com.example.githubhomework.RepositoryActivity
 import com.example.githubhomework.databinding.FragmentRecentRepositoriesBinding
@@ -16,17 +17,11 @@ import org.koin.android.ext.android.inject
 
 class RecentRepositoriesFragment : Fragment() {
     private lateinit var binding: FragmentRecentRepositoriesBinding
-    private val viewModel: RecentRepositoriesViewModel by inject()
+    val viewModel: RecentRepositoriesViewModel by inject()
 
-    private lateinit var gridView: GridView
+    lateinit var gridView: GridView
 
     var title = ""
-
-    var repositoryList: List<Repository> = listOf()
-        set(value) {
-            field = value
-            setAdapter()
-        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,24 +32,14 @@ class RecentRepositoriesFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        viewModel.repositories.observe(viewLifecycleOwner, RepositoriesObserver().create(this))
+
         gridView = binding.root.findViewById(R.id.recentRepositoriesGridView)
-        setAdapter()
 
         return binding.root
     }
 
-    private fun setAdapter() {
-        if (::gridView.isInitialized) {
-            val gridViewAdapter = GridViewAdapter(requireContext(), repositoryList)
-            gridView.adapter = gridViewAdapter
-
-            gridViewAdapter.onRepositorySelect = {
-                val intent = Intent(requireContext(), RepositoryActivity::class.java)
-
-                intent.putExtra(RepositoryActivity.REPOSITORY_FULLNAME, it.fullName)
-
-                startActivity(intent)
-            }
-        }
+    fun isGridViewInitialized(): Boolean {
+        return ::gridView.isInitialized
     }
 }
