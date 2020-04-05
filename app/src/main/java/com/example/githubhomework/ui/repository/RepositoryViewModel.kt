@@ -1,5 +1,6 @@
 package com.example.githubhomework.ui.repository
 
+import android.view.View
 import androidx.lifecycle.*
 import com.example.githubhomework.persistence.entities.Issue
 import com.example.githubhomework.persistence.entities.Label
@@ -16,6 +17,13 @@ class RepositoryViewModel : ViewModel() {
             
             issueList.value = value
             labelList.value = LabelExtractor.extractFromIssueList(value)
+            if (value.count() == 0) {
+                noIssuesFoundVisibility.value = View.VISIBLE
+                recycleViewVisibility.value = View.GONE
+            } else {
+                noIssuesFoundVisibility.value = View.GONE
+                recycleViewVisibility.value = View.VISIBLE
+            }
         }
 
     val issueList = MutableLiveData<List<Issue>>()
@@ -23,6 +31,10 @@ class RepositoryViewModel : ViewModel() {
     var labelList = MutableLiveData<List<Label>>()
     //end recycle view
 
+    //empty screen
+    val noIssuesFoundVisibility = MutableLiveData<Int>(View.GONE)
+    val recycleViewVisibility = MutableLiveData<Int>(View.GONE)
+    //end empty screen
 
     //repository
     val repository = MutableLiveData<Repository>()

@@ -46,7 +46,18 @@
             android:paddingTop="@dimen/foreground_radius"
             app:layout_behavior="ru.semper_viventem.backdrop.BackdropBehavior">
 
+
+            <TextView
+                android:visibility="@{viewModel.noIssuesFoundVisibility}"
+                android:text="@string/no_issues_found"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </TextView>
+
+
             <com.google.android.material.card.MaterialCardView
+                android:visibility="@{viewModel.recycleViewVisibility}"
                 app:cardCornerRadius="8dp"
                 android:elevation="4dp"
                 app:layout_behavior="ru.semper_viventem.backdrop.BackdropBehavior"

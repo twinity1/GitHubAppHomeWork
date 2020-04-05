@@ -18,35 +18,54 @@ class IssueObserver {
         return Observer {
             val adapter = IssuesListAdapter(it)
 
-            adapter.onIssueShow = {
-                val intent = Intent(owner.requireActivity(), IssueActivity::class.java)
-
-                intent.putExtra(IssueActivity.ISSUE_URL, it.entity.url)
-
-                owner.startActivity(intent)
-            }
-
-            adapter.onIssueDelete = {
-                val dialog = IssueDeleteConfirmDialogFactory().create(owner.requireContext()) {
-                    if (it) {
-
-                    }
-                }
-
-                dialog.show()
-            }
-
-            adapter.onIssueEdit = {
-                val intent = Intent(owner.requireActivity(), IssueFormActivity::class.java)
-
-                intent.putExtra(IssueFormActivity.FULL_REPOSITORY_NAME, owner.repositoryFullName)
-                intent.putExtra(IssueFormActivity.ISSUE_URL, it.entity.url)
-
-                owner.startActivity(intent)
-            }
+            setOnIssueShowEvenet(adapter, owner)
+            setOnIssueDeleteEvent(adapter, owner)
+            setOnIssueEditEvent(adapter, owner)
 
             owner.repositoryIssueList.layoutManager = LinearLayoutManager(owner.requireActivity())
             owner.repositoryIssueList.adapter = adapter
+        }
+    }
+
+    private fun setOnIssueEditEvent(
+        adapter: IssuesListAdapter,
+        owner: RepositoryFragment
+    ) {
+        adapter.onIssueEdit = {
+            val intent = Intent(owner.requireActivity(), IssueFormActivity::class.java)
+
+            intent.putExtra(IssueFormActivity.FULL_REPOSITORY_NAME, owner.repositoryFullName)
+            intent.putExtra(IssueFormActivity.ISSUE_URL, it.entity.url)
+
+            owner.startActivity(intent)
+        }
+    }
+
+    private fun setOnIssueDeleteEvent(
+        adapter: IssuesListAdapter,
+        owner: RepositoryFragment
+    ) {
+        adapter.onIssueDelete = {
+            val dialog = IssueDeleteConfirmDialogFactory().create(owner.requireContext()) {
+                if (it) {
+
+                }
+            }
+
+            dialog.show()
+        }
+    }
+
+    private fun setOnIssueShowEvenet(
+        adapter: IssuesListAdapter,
+        owner: RepositoryFragment
+    ) {
+        adapter.onIssueShow = {
+            val intent = Intent(owner.requireActivity(), IssueActivity::class.java)
+
+            intent.putExtra(IssueActivity.ISSUE_URL, it.entity.url)
+
+            owner.startActivity(intent)
         }
     }
 }

@@ -18,7 +18,6 @@ import com.example.githubhomework.persistence.entities.Repository
 import com.example.githubhomework.persistence.repositories.IssueRepository
 import com.example.githubhomework.persistence.repositories.RepositoryRepository
 import com.example.githubhomework.tools.ErrorMessageHandler
-import com.example.githubhomework.tools.Identity.IdentityManager
 import com.example.githubhomework.tools.ui.addDivider
 import kotlinx.android.synthetic.main.fragment_repository.*
 import ru.semper_viventem.backdrop.BackdropBehavior
@@ -38,7 +37,6 @@ class RepositoryFragment : Fragment() {
     private val repositoryRepository: RepositoryRepository by inject()
     private val labelObserver: LabelObserver by inject()
     private val issueObserver: IssueObserver by inject()
-    private val identityManager: IdentityManager by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
