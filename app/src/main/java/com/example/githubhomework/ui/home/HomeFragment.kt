@@ -10,13 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.githubhomework.R
 import com.example.githubhomework.databinding.FragmentHomeBinding
-import com.example.githubhomework.persistence.repositories.RepositoryRepository
-import com.example.githubhomework.tools.Identity.IdentityManager
-import com.example.githubhomework.ui.recentrepositories.RecentRepositoriesFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.android.ext.android.inject
-import org.koin.ext.getFullName
 
 class HomeFragment : Fragment() {
 
@@ -27,8 +23,6 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-
-    private var repositoryFragments: List<RecentRepositoriesFragment> = listOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,9 +44,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun configureView() {
-        repositoryFragments = tabFragmentsFactory.getFragments(this)
+        val fragments = tabFragmentsFactory.getFragments(this)
 
-        val viewPagerAdapter = ViewPagerAdapter(repositoryFragments, requireActivity())
+        val viewPagerAdapter = ViewPagerAdapter(fragments, requireActivity())
         viewPager.adapter = viewPagerAdapter
 
         TabLayoutMediator(
@@ -60,14 +54,8 @@ class HomeFragment : Fragment() {
             viewPager,
             object : TabLayoutMediator.TabConfigurationStrategy {
                 override fun onConfigureTab(tab: TabLayout.Tab, position: Int) {
-                    tab.setText(repositoryFragments[position].title)
+                    tab.setText(fragments[position].title)
                 }
             }).attach()
-    }
-
-    fun refresh() {
-        repositoryFragments.forEach {
-            it.refreshHandler()
-        }
     }
 }

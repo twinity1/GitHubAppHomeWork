@@ -25,7 +25,6 @@ class IssueObserver(private val identityManager: IdentityManager) {
             }
 
             setOnIssueShowEvenet(adapter, owner)
-            setOnIssueDeleteEvent(adapter, owner)
             setOnIssueEditEvent(adapter, owner)
 
             adapter.issues = it
@@ -46,21 +45,6 @@ class IssueObserver(private val identityManager: IdentityManager) {
             intent.putExtra(IssueFormActivity.ISSUE_URL, it.entity.url)
 
             owner.startActivity(intent)
-        }
-    }
-
-    private fun setOnIssueDeleteEvent(
-        adapter: IssuesListAdapter,
-        owner: RepositoryFragment
-    ) {
-        adapter.onIssueDelete = {
-            val dialog = IssueDeleteConfirmDialogFactory().create(owner.requireContext()) {
-                if (it) {
-
-                }
-            }
-
-            dialog.show()
         }
     }
 

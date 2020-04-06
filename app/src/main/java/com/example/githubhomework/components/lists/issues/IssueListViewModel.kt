@@ -10,18 +10,12 @@ class IssueListViewModel(val entity: Issue) : ViewModel() {
         get() = "#" + entity.number.toString()
 
     val editVisibility = MutableLiveData<Int>(View.GONE)
-    val deleteVisibility = MutableLiveData<Int>(View.GONE)
 
     var onIssueShow = {}
     var onIssueEdit = {}
-    var onIssueDelete = {}
 
     fun cardSelect() {
         onIssueShow()
-    }
-
-    fun delete() {
-        onIssueDelete()
     }
 
     fun edit() {

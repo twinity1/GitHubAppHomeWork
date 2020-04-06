@@ -45,25 +45,12 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/issueTitle"
-            app:layout_constraintEnd_toStartOf="@id/deleteIssueBtn"
+            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/editIssueBtn"
             android:src="@drawable/baseline_create_24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
-
-        <ImageButton
-            android:visibility="@{viewModel.deleteVisibility}"
-            android:onClick="@{() -> viewModel.delete()}"
-            android:contentDescription="@string/delete_issue_desc"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/issueTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/deleteIssueBtn"
-            android:src="@drawable/baseline_delete_24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/fab_margin"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

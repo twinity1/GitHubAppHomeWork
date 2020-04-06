@@ -39,6 +39,8 @@ class TabFragmentsFactory(private val repositoryRepository: RepositoryRepository
             fragment.refresh()
         }
 
+        fragment.refreshHandler()
+
         return fragment
     }
 
@@ -57,6 +59,8 @@ class TabFragmentsFactory(private val repositoryRepository: RepositoryRepository
             }
             fragment.refresh()
         }
+
+        fragment.refreshHandler()
 
         return fragment
     }

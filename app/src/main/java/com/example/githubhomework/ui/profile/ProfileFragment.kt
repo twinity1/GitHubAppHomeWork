@@ -15,10 +15,6 @@ import org.koin.ext.getFullName
 class ProfileFragment : Fragment() {
     private val identityManager: IdentityManager by inject()
 
-    companion object {
-        val LAST_SCREEN = "last_screen"
-    }
-
     private enum class Screen {
         none,
         profileContent,
@@ -26,6 +22,8 @@ class ProfileFragment : Fragment() {
     }
 
     private var lastScreen = Screen.none
+
+    var onRedraw = {}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,5 +68,7 @@ class ProfileFragment : Fragment() {
         }
 
         lastScreen = getNextScreen()
+
+        onRedraw()
     }
 }

@@ -56,10 +56,6 @@ class IssuesListAdapter(var issues: List<Issue>, private val identityManager: Id
             onIssueEdit?.invoke(viewModel)
         }
 
-        viewModel.onIssueDelete = {
-            onIssueDelete?.invoke(viewModel)
-        }
-
         holder.binding.viewModel = viewModel
     }
 }

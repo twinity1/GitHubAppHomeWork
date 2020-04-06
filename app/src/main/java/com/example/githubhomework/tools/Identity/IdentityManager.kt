@@ -8,6 +8,7 @@ import com.example.githubhomework.persistence.entities.Identity
 import com.example.githubhomework.persistence.repositories.RepositoryRepository
 import com.example.githubhomework.tools.HttpClient.BasicCredentialsInterceptor
 import com.example.githubhomework.tools.HttpClient.HttpClient
+import com.google.gson.Gson
 import com.google.gson.JsonParser
 import okhttp3.Call
 import okhttp3.Callback
@@ -44,7 +45,7 @@ class IdentityManager(
 
         val handler = Handler(Looper.getMainLooper())
 
-        val r = Request.Builder().url("https://api.github.com").build();
+        val r = Request.Builder().url("https://api.github.com/user").build();
 
         httpClient.client.newCall(r).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -58,7 +59,9 @@ class IdentityManager(
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.code() == 200) {
-                    val newIdentity = appDatabase.identityDao().getIdentity() ?: Identity(null, username, password)
+                    val username1 = JsonParser().parse(response.body()!!.string()).asJsonObject.get("login").asString
+                    val newIdentity = appDatabase.identityDao().getIdentity() ?: Identity(null,
+                        username1, password)
                     appDatabase.identityDao().save(newIdentity)
                     identity = newIdentity
                     repositoryRepository.storeAllRepositoriesForCurrentUser()
