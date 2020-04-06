@@ -69,7 +69,7 @@ class RepositoryFragment : Fragment() {
         viewModel.labelList.observe(viewLifecycleOwner, labelObserver.create(this))
         viewModel.issueList.observe(viewLifecycleOwner, issueObserver.create(this))
         viewModel.repository.observe(viewLifecycleOwner,  Observer { toolbar.title = it.fullName } )
-        viewModel.addVisibility.value = if(identityManager?.identity == null) View.GONE else View.VISIBLE
+        viewModel.addVisibility.value = if(identityManager.identity == null) View.GONE else View.VISIBLE
 
 
         viewModel.onNewIssueShow = {
